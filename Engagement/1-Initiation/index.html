@@ -1,174 +1,132 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+<!doctype html>
+<html lang="pt-PT">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciação em Páginas</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6;
-        }
-        .page-content {
-            display: none;
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Engagement — Fase 1: Initiation (Atividade)</title>
+  <link rel="stylesheet" href="../../assets/style.css" />
+  <style>
+    .steps{counter-reset: step}
+    .step::before{counter-increment: step; content: counter(step); display:inline-flex; width:1.6rem; height:1.6rem; align-items:center; justify-content:center; border-radius:50%; background:#e2e8f0; margin-right:.5rem; font-weight:600}
+    .kpi{display:inline-block; padding:.35rem .6rem; background:#f1f5f9; border:1px solid #e2e8f0; border-radius:.5rem; margin:.2rem .2rem 0 0}
+    .grid-3{display:grid; grid-template-columns:1fr; gap:1rem}
+    @media(min-width:980px){ .grid-3{grid-template-columns:1fr 1fr 1fr} }
+    .cta{display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.5rem}
+    .rubrica td,.rubrica th{text-align:left}
+  </style>
 </head>
-<body class="p-4 md:p-8 flex flex-col items-center min-h-screen">
-    <div class="w-full max-w-4xl bg-white p-6 md:p-10 rounded-xl shadow-2xl space-y-8">
-        <div class="text-center space-y-2 mb-8">
-            <h1 class="text-3xl md:text-4xl font-bold text-gray-800">Iniciação (Arranque) - O Guia em Páginas</h1>
-            <p class="text-lg text-gray-600 max-w-3xl mx-auto">
-                Aqui pode navegar pelas principais atividades da fase de Iniciação do seu programa de Governança de Dados.
-            </p>
-        </div>
-
-        <!-- Navegação de Páginas -->
-        <div class="flex justify-center space-x-4">
-            <button id="nav-page-1" class="px-6 py-2 rounded-lg font-semibold transition duration-300 text-white bg-blue-600 hover:bg-blue-700 shadow-md">
-                Página 1
-            </button>
-            <button id="nav-page-2" class="px-6 py-2 rounded-lg font-semibold transition duration-300 text-gray-700 bg-gray-200 hover:bg-gray-300 shadow-md">
-                Página 2
-            </button>
-            <button id="nav-page-3" class="px-6 py-2 rounded-lg font-semibold transition duration-300 text-gray-700 bg-gray-200 hover:bg-gray-300 shadow-md">
-                Página 3
-            </button>
-        </div>
-
-        <!-- Conteúdo da Página 1 -->
-        <div id="page-1" class="page-content p-6 md:p-8 bg-gray-50 rounded-xl shadow-inner border-2 border-gray-200" style="display: block;">
-            <h2 class="text-2xl font-semibold text-gray-700 flex items-center mb-4">
-                Página 1: Aprovação e Estrutura da Equipa
-            </h2>
-            
-            <div class="space-y-6">
-                <!-- Obter aprovação formal -->
-                <div>
-                    <h3 class="text-xl font-bold text-gray-800 border-b pb-2">Obter Aprovação do Programa</h3>
-                    <p class="mt-2 text-gray-600">
-                        É crucial que a liderança formalize o apoio a um **programa**, e não apenas a um projeto. Mesmo que a abordagem seja discreta, é vital que a liderança esteja ciente de que um resultado bem-sucedido levará à sustentação da capacidade de DG. Este reconhecimento formal é o primeiro passo para a legitimidade.
-                    </p>
-                    <p class="mt-2 text-sm italic text-gray-500">
-                        **Benefício:** Um novo líder de projeto não é sustentável. O reconhecimento formal garante o apoio a longo prazo e promove a literacia de Governança de Dados na organização.
-                    </p>
-                </div>
-
-                <!-- Desenvolver estrutura da equipa -->
-                <div>
-                    <h3 class="text-xl font-bold text-gray-800 border-b pb-2">Desenvolver a Estrutura da Equipa de Rollout DG</h3>
-                    <p class="mt-2 text-gray-600">
-                        Defina a equipa oficial de implementação do programa. Esta equipa é responsável pela definição do programa, e não pela sua operação contínua. É fundamental garantir que a equipa não seja vista como um "cemitério de programadores" e que inclua membros com experiência em **Gestão de Dados (DM)**, **Qualidade de Dados**, **especialistas de negócio (SMEs)** e conhecimento da política interna.
-                    </p>
-                    <ul class="list-disc list-inside space-y-1 text-gray-600 mt-2">
-                        <li>**Recursos:** Mesmo em grandes organizações, uma equipa de 4 a 6 elementos a tempo inteiro é suficiente, desde que haja um corpo de sponsors poderoso e um patrocinador comprometido.</li>
-                        <li>**Sinais de Alerta:** Desconfie se a equipa é composta por colaboradores que "não encaixam em mais lado nenhum" ou se o comité de direção delega a sua participação a membros sem poder de decisão.</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <!-- Conteúdo da Página 2 -->
-        <div id="page-2" class="page-content p-6 md:p-8 bg-gray-50 rounded-xl shadow-inner border-2 border-gray-200">
-            <h2 class="text-2xl font-semibold text-gray-700 flex items-center mb-4">
-                Página 2: O Papel da Equipa e Conselhos de Sucesso
-            </h2>
-            <div class="space-y-6">
-                <!-- Benefícios e Papel da Equipa -->
-                <div>
-                    <h3 class="text-xl font-bold text-gray-800 border-b pb-2">Função e Benefícios da Equipa de Rollout</h3>
-                    <p class="mt-2 text-gray-600">
-                        A equipa de rollout não é permanente e irá transitar para as suas funções anteriores assim que o programa estiver operacional. Esta abordagem garante uma melhor alavancagem de competências e uma diversificação de conhecimentos, que incluem:
-                    </p>
-                    <ul class="list-disc list-inside space-y-1 text-gray-600 mt-2">
-                        <li>Competências para **redigir políticas** e **gerir comités de direção**.</li>
-                        <li>Capacidades de **formação** e **facilitação**.</li>
-                        <li>Experiência em **Gestão de Dados** e **Qualidade de Dados** para reconhecer e resolver problemas.</li>
-                        <li>**Conhecimento de negócio** e dos **sistemas de informação**.</li>
-                    </ul>
-                </div>
-                
-                <!-- Conselhos para o Sucesso -->
-                <div>
-                    <h3 class="text-xl font-bold text-gray-800 border-b pb-2">Conselhos para o Sucesso</h3>
-                    <p class="mt-2 text-gray-600">
-                        A falta de recursos adequados é um dos maiores sinais de que o esforço de DG foi mal concebido. Assegure-se de que a sua equipa é levada a sério.
-                    </p>
-                    <ul class="list-disc list-inside space-y-1 text-gray-600 mt-2">
-                        <li>**Sponsor Forte:** O membro mais importante da equipa é o patrocinador. Ele deve ser apaixonado e estar totalmente empenhado, disposto a usar o seu capital político para o sucesso do programa.</li>
-                        <li>**Monitorização de Sinais de Alerta:** Observe a equipa para sinais precoces de desinteresse. Se os membros são "deslocados" de outras áreas ou se os líderes delegam a presença em reuniões a não-decisores, isso indica que o programa não está a ser levado a sério e requer mais esforço de educação.</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <!-- Conteúdo da Página 3 -->
-        <div id="page-3" class="page-content p-6 md:p-8 bg-gray-50 rounded-xl shadow-inner border-2 border-gray-200">
-            <h2 class="text-2xl font-semibold text-gray-700 flex items-center mb-4">
-                Página 3: Resumo da Iniciação e Próximos Passos
-            </h2>
-            <div class="space-y-6">
-                <div>
-                    <h3 class="text-xl font-bold text-gray-800 border-b pb-2">Resumo da Fase de Iniciação</h3>
-                    <p class="mt-2 text-gray-600">
-                        A Iniciação é a base fundamental para o seu programa de Governança de Dados. Ao obter a aprovação formal e montar uma equipa de rollout com competências diversificadas e o apoio de sponsors fortes, você garante que o programa começa com o pé direito e é reconhecido como uma capacidade de negócio sustentável, e não como um projeto temporário.
-                    </p>
-                </div>
-                <div>
-                    <h3 class="text-xl font-bold text-gray-800 border-b pb-2">Olhar para o Futuro: A Fase de Definição</h3>
-                    <p class="mt-2 text-gray-600">
-                        Com a equipa e a aprovação em mãos, o próximo passo é a fase de **Definição**. Esta etapa irá focar-se em:
-                    </p>
-                    <ul class="list-disc list-inside space-y-1 text-gray-600 mt-2">
-                        <li>**Definir DG** para a sua organização.</li>
-                        <li>**Identificar as unidades de negócio** e as **capacidades** que necessitam de DG.</li>
-                        <li>**Definir o âmbito** e as **restrições** do programa inicial.</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+<body>
+  <header class="header" role="banner">
+    <div class="header-inner container">
+      <div class="brand">Programa de Engagement — Governação de Dados</div>
+      <nav class="nav" role="navigation" aria-label="Navegação por fases">
+        <a href="../1-Initiation/index.html" class="active" aria-current="page">Fase 1 — Initiation</a>
+        <a href="../2-Definition/index.html">Fase 2 — Definition</a>
+        <a href="../3-Scope/index.html">Fase 3 — Scope</a>
+        <a href="../4-Assessment/index.html">Fase 4 — Assessment</a>
+        <a href="../5-Vision_and_Plan/index.html">Fase 5 — Vision and Plan</a>
+      </nav>
     </div>
+  </header>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const navPage1 = document.getElementById('nav-page-1');
-            const navPage2 = document.getElementById('nav-page-2');
-            const navPage3 = document.getElementById('nav-page-3');
-            const page1 = document.getElementById('page-1');
-            const page2 = document.getElementById('page-2');
-            const page3 = document.getElementById('page-3');
+  <main class="container">
+    <p class="breadcrumbs"><a href="../../index.html">Início</a> / Engagement / 1 — Initiation</p>
 
-            function showPage(pageToShow, navToActivate) {
-                const allPages = [page1, page2, page3];
-                const allNavs = [navPage1, navPage2, navPage3];
+    <section class="panel">
+      <h1>Engagement — Fase 1: <span style="white-space:nowrap">Initiation</span></h1>
+      <p><strong>Objetivo da atividade:</strong> legitimar o <em>Programa</em> (não apenas projeto) e montar a equipa de rollout, produzindo 3 artefactos mínimos: <strong>Charter</strong> (1‑página), <strong>Equipa</strong> (roster + organograma) e <strong>Calendário</strong> (ICS).</p>
+      <div class="grid grid-2" style="margin-top:1rem">
+        <div>
+          <h3>Resultados esperados</h3>
+          <ul class="list">
+            <li>Reconhecimento explícito de <strong>programa</strong> (declaração de aprovação).</li>
+            <li><strong>Sponsor</strong> ativo e equipa de rollout definida.</li>
+            <li><strong>Cadência</strong> publicada (sponsors quinzenal; equipa semanal).</li>
+          </ul>
+          <div>
+            <span class="kpi">KPI: Charter v1 assinado</span>
+            <span class="kpi">KPI: Sponsor presente nas 2 primeiras reuniões</span>
+            <span class="kpi">KPI: ICS com RRULE ativa</span>
+          </div>
+        </div>
+        <div>
+          <h3>Abrir artefactos</h3>
+          <div class="grid grid-2">
+            <a class="cardlink" href="01_charter/charter_template.md"><span>📄 Charter Template</span><span>➡️</span></a>
+            <a class="cardlink" href="01_charter/charter_guide.md"><span>📘 Guia do Charter</span><span>➡️</span></a>
+            <a class="cardlink" href="02_team/team_roster.csv"><span>👥 Equipa — Roster (CSV)</span><span>➡️</span></a>
+            <a class="cardlink" href="02_team/rollout_team_guide.md"><span>📘 Guia da Equipa</span><span>➡️</span></a>
+            <a class="cardlink" href="03_approvals/program_approval_memo_template.md"><span>✅ Memorando Programático</span><span>➡️</span></a>
+            <a class="cardlink" href="04_schedule/meetings.ics"><span>🗓️ Calendário — ICS</span><span>⬇️</span></a>
+            <a class="cardlink" href="05_risks/risk_register_template.csv"><span>⚠️ Registo de Riscos (CSV)</span><span>➡️</span></a>
+            <a class="cardlink" href="06_checkpoints/initiation_checklist.md"><span>☑️ Checklist de Encerramento</span><span>➡️</span></a>
+          </div>
+          <p style="margin-top:.6rem">Dica: usa o <a href="site/index.html">site de apoio</a> para pré-visualizar Markdown e editar CSV.</p>
+        </div>
+      </div>
+    </section>
 
-                allPages.forEach(p => p.style.display = 'none');
-                allNavs.forEach(n => {
-                    n.classList.remove('bg-blue-600', 'text-white');
-                    n.classList.add('bg-gray-200', 'text-gray-700');
-                });
+    <section class="panel">
+      <h2>Atividade guiada (45–60 min)</h2>
+      <ol class="list steps">
+        <li class="step"><strong>Charter (15–20 min):</strong> completa o <a href="01_charter/charter_template.md">template</a> com <em>objetivos</em>, <em>âmbito IN/OUT</em>, <em>riscos</em> e <em>métricas</em>.
+          <br/>Critérios: ≥3 objetivos; ≥2 IN; ≥1 OUT; ≥2 riscos; ≥2 métricas.
+        </li>
+        <li class="step"><strong>Equipa (10–15 min):</strong> preenche o <a href="02_team/team_roster.csv">roster</a>, define sponsor e stewards; desenha organograma simples.
+          <br/>Critérios: ≥5 papéis; sponsor identificado; % alocação realista.
+        </li>
+        <li class="step"><strong>Calendário (10–15 min):</strong> descarrega o <a href="04_schedule/meetings.ics">ICS</a> e ajusta dias/horas; sponsors (quinzenal), equipa (semanal).
+          <br/>Critérios: 2 eventos; duração 1h; RRULE correta (Weekly/Interval=2).
+        </li>
+        <li class="step"><strong>Fecho (5–10 min):</strong> valida com a <a href="06_checkpoints/initiation_checklist.md">checklist</a> e agenda gate para Definition/Scope.
+        </li>
+      </ol>
+      <div class="cta">
+        <a class="btn" href="03_approvals/program_approval_memo_template.md">Gerar Memorando de Aprovação</a>
+        <a class="btn" href="02_team/rollout_team_guide.md">Abrir Guia da Equipa</a>
+        <a class="btn" href="01_charter/charter_guide.md">Abrir Guia do Charter</a>
+      </div>
+    </section>
 
-                pageToShow.style.display = 'block';
-                navToActivate.classList.remove('bg-gray-200', 'text-gray-700');
-                navToActivate.classList.add('bg-blue-600', 'text-white');
-            }
+    <section class="panel">
+      <h2>Sinais de alerta e mitigação</h2>
+      <ul class="list">
+        <li><strong>Delegação a não-decisores</strong> no steering → reforçar educação dos decisores.</li>
+        <li><strong>“Graveyard” de perfis</strong> na equipa → reavaliar seleção e clarificar competências.</li>
+        <li><strong>Patrocínio tímido</strong> → 1:1 com sponsor alternativo; compromisso explícito.</li>
+        <li><strong>Tecnologia antes de desenho</strong> → adiar aquisições até clarificar capacidades.</li>
+      </ul>
+      <p style="margin-top:.5rem"><a class="btn" href="05_risks/early_warnings_checklist.md">Abrir Checklist de Alertas</a></p>
+    </section>
 
-            navPage1.addEventListener('click', () => {
-                showPage(page1, navPage1);
-            });
+    <section class="panel">
+      <h2>Critérios de validação</h2>
+      <ul class="list">
+        <li>Charter v1 <strong>assinado</strong> com reconhecimento de <em>programa</em>.</li>
+        <li>Sponsor <strong>presente</strong> nas 2 primeiras reuniões.</li>
+        <li>Equipa mínima com <em>política</em>, <em>facilitação</em> e <em>data quality</em>.</li>
+        <li>Calendário <strong>publicado</strong> e decisões registadas.</li>
+      </ul>
+      <table class="rubrica" style="width:100%; border-collapse:collapse; margin-top:.5rem">
+        <thead>
+          <tr>
+            <th style="border:1px solid #e2e8f0; padding:.4rem">Critério</th>
+            <th style="border:1px solid #e2e8f0; padding:.4rem">Aceite</th>
+            <th style="border:1px solid #e2e8f0; padding:.4rem">Observações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="border:1px solid #e2e8f0; padding:.4rem">Charter v1 assinado</td><td style="border:1px solid #e2e8f0; padding:.4rem">☐</td><td style="border:1px solid #e2e8f0; padding:.4rem"></td></tr>
+          <tr><td style="border:1px solid #e2e8f0; padding:.4rem">Sponsor ativo</td><td style="border:1px solid #e2e8f0; padding:.4rem">☐</td><td style="border:1px solid #e2e8f0; padding:.4rem"></td></tr>
+          <tr><td style="border:1px solid #e2e8f0; padding:.4rem">Equipa definida</td><td style="border:1px solid #e2e8f0; padding:.4rem">☐</td><td style="border:1px solid #e2e8f0; padding:.4rem"></td></tr>
+          <tr><td style="border:1px solid #e2e8f0; padding:.4rem">ICS publicado</td><td style="border:1px solid #e2e8f0; padding:.4rem">☐</td><td style="border:1px solid #e2e8f0; padding:.4rem"></td></tr>
+        </tbody>
+      </table>
+    </section>
 
-            navPage2.addEventListener('click', () => {
-                showPage(page2, navPage2);
-            });
+    <p style="margin:1rem 0"><a class="btn" href="../../index.html">⬅️ Voltar ao Portal</a></p>
+  </main>
 
-            navPage3.addEventListener('click', () => {
-                showPage(page3, navPage3);
-            });
-        });
-    </script>
+  <footer class="footer">© 2025 Programa de Governação de Dados — Engagement</footer>
 </body>
 </html>

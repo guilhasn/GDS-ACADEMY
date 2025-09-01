@@ -1,121 +1,174 @@
 <!DOCTYPE html>
-<html lang="pt-pt">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulador de Governança de Dados: Fase de Iniciação</title>
+    <title>Iniciação em Páginas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f9; color: #333; }
-        h1, h2 { color: #2c3e50; }
-        .section { margin-bottom: 20px; padding: 15px; background-color: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        button { background-color: #3498db; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; }
-        button:hover { background-color: #2980b9; }
-        .feedback { margin-top: 10px; padding: 10px; border-radius: 5px; }
-        .success { background-color: #d4edda; color: #155724; }
-        .error { background-color: #f8d7da; color: #721c24; }
-        .neutral { background-color: #fff3cd; color: #856404; }
-        #simulation-output { font-style: italic; margin-top: 10px; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+        .page-content {
+            display: none;
+        }
     </style>
 </head>
-<body>
-    <h1>Simulador de Governança de Dados: Fase de Iniciação</h1>
-    <p>Baseado no Capítulo 7 ("Engajamento") de "Data Governance" de John Ladley. Simule o arranque de um programa de governança de dados (GD) para o Banco InovaData. Tome decisões e receba feedback!</p>
-    
-    <div class="section">
-        <h2>Passo 1: Obter Aprovação do Programa</h2>
-        <p>Conforme Ladley, assegure a aprovação da liderança para um programa sustentável, não apenas um projeto. Que abordagem escolhe?</p>
-        <select id="approval-choice">
-            <option value="">Selecione uma opção</option>
-            <option value="low-profile">Baixo perfil: Começar pequeno, verificar apoio discretamente.</option>
-            <option value="formal">Formal: Obter carta do CEO e patrocinadores.</option>
-            <option value="poc">Prova de Conceito: Tratar como projeto temporário.</option>
-        </select>
-        <button onclick="evaluateApproval()">Submeter</button>
-        <div id="approval-feedback" class="feedback"></div>
+<body class="p-4 md:p-8 flex flex-col items-center min-h-screen">
+    <div class="w-full max-w-4xl bg-white p-6 md:p-10 rounded-xl shadow-2xl space-y-8">
+        <div class="text-center space-y-2 mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800">Iniciação (Arranque) - O Guia em Páginas</h1>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                Aqui pode navegar pelas principais atividades da fase de Iniciação do seu programa de Governança de Dados.
+            </p>
+        </div>
+
+        <!-- Navegação de Páginas -->
+        <div class="flex justify-center space-x-4">
+            <button id="nav-page-1" class="px-6 py-2 rounded-lg font-semibold transition duration-300 text-white bg-blue-600 hover:bg-blue-700 shadow-md">
+                Página 1
+            </button>
+            <button id="nav-page-2" class="px-6 py-2 rounded-lg font-semibold transition duration-300 text-gray-700 bg-gray-200 hover:bg-gray-300 shadow-md">
+                Página 2
+            </button>
+            <button id="nav-page-3" class="px-6 py-2 rounded-lg font-semibold transition duration-300 text-gray-700 bg-gray-200 hover:bg-gray-300 shadow-md">
+                Página 3
+            </button>
+        </div>
+
+        <!-- Conteúdo da Página 1 -->
+        <div id="page-1" class="page-content p-6 md:p-8 bg-gray-50 rounded-xl shadow-inner border-2 border-gray-200" style="display: block;">
+            <h2 class="text-2xl font-semibold text-gray-700 flex items-center mb-4">
+                Página 1: Aprovação e Estrutura da Equipa
+            </h2>
+            
+            <div class="space-y-6">
+                <!-- Obter aprovação formal -->
+                <div>
+                    <h3 class="text-xl font-bold text-gray-800 border-b pb-2">Obter Aprovação do Programa</h3>
+                    <p class="mt-2 text-gray-600">
+                        É crucial que a liderança formalize o apoio a um **programa**, e não apenas a um projeto. Mesmo que a abordagem seja discreta, é vital que a liderança esteja ciente de que um resultado bem-sucedido levará à sustentação da capacidade de DG. Este reconhecimento formal é o primeiro passo para a legitimidade.
+                    </p>
+                    <p class="mt-2 text-sm italic text-gray-500">
+                        **Benefício:** Um novo líder de projeto não é sustentável. O reconhecimento formal garante o apoio a longo prazo e promove a literacia de Governança de Dados na organização.
+                    </p>
+                </div>
+
+                <!-- Desenvolver estrutura da equipa -->
+                <div>
+                    <h3 class="text-xl font-bold text-gray-800 border-b pb-2">Desenvolver a Estrutura da Equipa de Rollout DG</h3>
+                    <p class="mt-2 text-gray-600">
+                        Defina a equipa oficial de implementação do programa. Esta equipa é responsável pela definição do programa, e não pela sua operação contínua. É fundamental garantir que a equipa não seja vista como um "cemitério de programadores" e que inclua membros com experiência em **Gestão de Dados (DM)**, **Qualidade de Dados**, **especialistas de negócio (SMEs)** e conhecimento da política interna.
+                    </p>
+                    <ul class="list-disc list-inside space-y-1 text-gray-600 mt-2">
+                        <li>**Recursos:** Mesmo em grandes organizações, uma equipa de 4 a 6 elementos a tempo inteiro é suficiente, desde que haja um corpo de sponsors poderoso e um patrocinador comprometido.</li>
+                        <li>**Sinais de Alerta:** Desconfie se a equipa é composta por colaboradores que "não encaixam em mais lado nenhum" ou se o comité de direção delega a sua participação a membros sem poder de decisão.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Conteúdo da Página 2 -->
+        <div id="page-2" class="page-content p-6 md:p-8 bg-gray-50 rounded-xl shadow-inner border-2 border-gray-200">
+            <h2 class="text-2xl font-semibold text-gray-700 flex items-center mb-4">
+                Página 2: O Papel da Equipa e Conselhos de Sucesso
+            </h2>
+            <div class="space-y-6">
+                <!-- Benefícios e Papel da Equipa -->
+                <div>
+                    <h3 class="text-xl font-bold text-gray-800 border-b pb-2">Função e Benefícios da Equipa de Rollout</h3>
+                    <p class="mt-2 text-gray-600">
+                        A equipa de rollout não é permanente e irá transitar para as suas funções anteriores assim que o programa estiver operacional. Esta abordagem garante uma melhor alavancagem de competências e uma diversificação de conhecimentos, que incluem:
+                    </p>
+                    <ul class="list-disc list-inside space-y-1 text-gray-600 mt-2">
+                        <li>Competências para **redigir políticas** e **gerir comités de direção**.</li>
+                        <li>Capacidades de **formação** e **facilitação**.</li>
+                        <li>Experiência em **Gestão de Dados** e **Qualidade de Dados** para reconhecer e resolver problemas.</li>
+                        <li>**Conhecimento de negócio** e dos **sistemas de informação**.</li>
+                    </ul>
+                </div>
+                
+                <!-- Conselhos para o Sucesso -->
+                <div>
+                    <h3 class="text-xl font-bold text-gray-800 border-b pb-2">Conselhos para o Sucesso</h3>
+                    <p class="mt-2 text-gray-600">
+                        A falta de recursos adequados é um dos maiores sinais de que o esforço de DG foi mal concebido. Assegure-se de que a sua equipa é levada a sério.
+                    </p>
+                    <ul class="list-disc list-inside space-y-1 text-gray-600 mt-2">
+                        <li>**Sponsor Forte:** O membro mais importante da equipa é o patrocinador. Ele deve ser apaixonado e estar totalmente empenhado, disposto a usar o seu capital político para o sucesso do programa.</li>
+                        <li>**Monitorização de Sinais de Alerta:** Observe a equipa para sinais precoces de desinteresse. Se os membros são "deslocados" de outras áreas ou se os líderes delegam a presença em reuniões a não-decisores, isso indica que o programa não está a ser levado a sério e requer mais esforço de educação.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Conteúdo da Página 3 -->
+        <div id="page-3" class="page-content p-6 md:p-8 bg-gray-50 rounded-xl shadow-inner border-2 border-gray-200">
+            <h2 class="text-2xl font-semibold text-gray-700 flex items-center mb-4">
+                Página 3: Resumo da Iniciação e Próximos Passos
+            </h2>
+            <div class="space-y-6">
+                <div>
+                    <h3 class="text-xl font-bold text-gray-800 border-b pb-2">Resumo da Fase de Iniciação</h3>
+                    <p class="mt-2 text-gray-600">
+                        A Iniciação é a base fundamental para o seu programa de Governança de Dados. Ao obter a aprovação formal e montar uma equipa de rollout com competências diversificadas e o apoio de sponsors fortes, você garante que o programa começa com o pé direito e é reconhecido como uma capacidade de negócio sustentável, e não como um projeto temporário.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-gray-800 border-b pb-2">Olhar para o Futuro: A Fase de Definição</h3>
+                    <p class="mt-2 text-gray-600">
+                        Com a equipa e a aprovação em mãos, o próximo passo é a fase de **Definição**. Esta etapa irá focar-se em:
+                    </p>
+                    <ul class="list-disc list-inside space-y-1 text-gray-600 mt-2">
+                        <li>**Definir DG** para a sua organização.</li>
+                        <li>**Identificar as unidades de negócio** e as **capacidades** que necessitam de DG.</li>
+                        <li>**Definir o âmbito** e as **restrições** do programa inicial.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
-    
-    <div class="section">
-        <h2>Passo 2: Desenvolver Estrutura da Equipa de Rollout de GD</h2>
-        <p>Ladley recomenda uma equipa qualificada com patrocinadores. Inclua partes interessadas e evite armadilhas como recursos inadequados.</p>
-        <p>Escolha membros da equipa (selecione 4-6):</p>
-        <input type="checkbox" id="cdo" value="CDO"> CDO (Líder)<br>
-        <input type="checkbox" id="cio" value="CIO"> CIO (Co-patrocinador)<br>
-        <input type="checkbox" id="business" value="Diretor Comercial"> Diretor Comercial (Patrocinador)<br>
-        <input type="checkbox" id="compliance" value="Chefe de Conformidade"> Chefe de Conformidade<br>
-        <input type="checkbox" id="stewards" value="Data Stewards"> 2 Data Stewards (Risco/Retalho)<br>
-        <input type="checkbox" id="it-dev" value="Desenvolvedor TI"> Desenvolvedor TI (Sem qualificação para GD)<br>
-        <button onclick="evaluateTeam()">Formar Equipa</button>
-        <div id="team-feedback" class="feedback"></div>
-    </div>
-    
-    <div class="section">
-        <h2>Passo 3: Gerar Entregáveis</h2>
-        <p>Crie entregáveis rápidos como uma carta e organograma.</p>
-        <button onclick="generateDeliverables()">Simular Geração</button>
-        <div id="deliverables-output"></div>
-    </div>
-    
-    <div class="section">
-        <h2>Resumo da Simulação</h2>
-        <div id="simulation-output"></div>
-    </div>
-    
+
     <script>
-        function evaluateApproval() {
-            const choice = document.getElementById("approval-choice").value;
-            const feedback = document.getElementById("approval-feedback");
-            if (choice === "formal") {
-                feedback.innerHTML = "Ótimo! Aprovação formal alinha-se com a ênfase de Ladley no suporte programático. Para o InovaData: CEO emite carta por 12 meses.";
-                feedback.className = "feedback success";
-            } else if (choice === "low-profile") {
-                feedback.innerHTML = "Bom para culturas resistentes, mas verifique a paixão dos patrocinadores conforme Ladley.";
-                feedback.className = "feedback neutral";
-            } else if (choice === "poc") {
-                feedback.innerHTML = "Evite! Ladley alerta contra a mentalidade de Prova de Conceito; leva a projetos não sustentáveis.";
-                feedback.className = "feedback error";
-            } else {
-                feedback.innerHTML = "Por favor, selecione uma opção.";
-                feedback.className = "feedback error";
+        document.addEventListener('DOMContentLoaded', () => {
+            const navPage1 = document.getElementById('nav-page-1');
+            const navPage2 = document.getElementById('nav-page-2');
+            const navPage3 = document.getElementById('nav-page-3');
+            const page1 = document.getElementById('page-1');
+            const page2 = document.getElementById('page-2');
+            const page3 = document.getElementById('page-3');
+
+            function showPage(pageToShow, navToActivate) {
+                const allPages = [page1, page2, page3];
+                const allNavs = [navPage1, navPage2, navPage3];
+
+                allPages.forEach(p => p.style.display = 'none');
+                allNavs.forEach(n => {
+                    n.classList.remove('bg-blue-600', 'text-white');
+                    n.classList.add('bg-gray-200', 'text-gray-700');
+                });
+
+                pageToShow.style.display = 'block';
+                navToActivate.classList.remove('bg-gray-200', 'text-gray-700');
+                navToActivate.classList.add('bg-blue-600', 'text-white');
             }
-        }
-        
-        function evaluateTeam() {
-            const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-            const selected = Array.from(checkboxes).map(cb => cb.value);
-            const feedback = document.getElementById("team-feedback");
-            if (selected.length < 4 || selected.length > 6) {
-                feedback.innerHTML = "O tamanho da equipa deve ser entre 4-6 FTEs conforme Ladley.";
-                feedback.className = "feedback error";
-                return;
-            }
-            if (selected.includes("Desenvolvedor TI")) {
-                feedback.innerHTML = "Aviso: Evite membros sem qualificação; Ladley nota isso como sinal de que o GD não é levado a sério.";
-                feedback.className = "feedback error";
-            } else if (selected.includes("CDO") && selected.includes("CIO") && selected.includes("Diretor Comercial") && selected.includes("Chefe de Conformidade") && selected.includes("Data Stewards")) {
-                feedback.innerHTML = "Equipa perfeita para o InovaData! Inclui paixão de patrocinadores e competências diversas (política, facilitação).";
-                feedback.className = "feedback success";
-            } else {
-                feedback.innerHTML = "Incompleto: Necessita patrocinador forte e competências diversas como especialistas em DM.";
-                feedback.className = "feedback neutral";
-            }
-        }
-        
-        function generateDeliverables() {
-            const output = document.getElementById("deliverables-output");
-            output.innerHTML = `
-                <h3>Carta Gerada (One-Pager):</h3>
-                <p>Programa de GD do Banco InovaData: Aprovado pelo CEO. Objetivos: Melhorar qualidade de dados para expansão. Prazo: 12 meses.</p>
-                <h3>Organograma:</h3>
-                <ul>
-                    <li>CDO (Líder)</li>
-                    <li>CIO & Diretor Comercial (Patrocinadores)</li>
-                    <li>Chefe de Conformidade</li>
-                    <li>Data Stewards</li>
-                </ul>
-                <h3>Calendário de Reuniões:</h3>
-                <p>Quinzenal com patrocinadores; Semanal com equipa.</p>
-            `;
-        }
+
+            navPage1.addEventListener('click', () => {
+                showPage(page1, navPage1);
+            });
+
+            navPage2.addEventListener('click', () => {
+                showPage(page2, navPage2);
+            });
+
+            navPage3.addEventListener('click', () => {
+                showPage(page3, navPage3);
+            });
+        });
     </script>
 </body>
 </html>

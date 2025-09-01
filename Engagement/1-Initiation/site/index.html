@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>1 — Initiation (Site)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>1 — Initiation (Arranque)</h1>
+    <nav>
+      <button data-view="md" data-path="../01_charter/charter_template.md">Charter (Template)</button>
+      <button data-view="md" data-path="../01_charter/charter_guide.md">Charter (Guia)</button>
+      <button data-view="csv" data-path="../02_team/team_roster.csv">Equipa — Roster</button>
+      <button data-view="csv" data-path="../02_team/swot_template.csv">Equipa — SWOT</button>
+      <button data-view="md" data-path="../02_team/rollout_team_guide.md">Equipa (Guia)</button>
+      <button data-view="md" data-path="../03_approvals/program_approval_memo_template.md">Aprovação — Memorando</button>
+      <button data-view="md" data-path="../03_approvals/sponsor_invite_email_template.md">Aprovação — Email</button>
+      <button data-view="md" data-path="../04_schedule/meeting_cadence.md">Calendário — Cadência</button>
+      <a class="btn" href="../04_schedule/meetings.ics" download>Descarregar ICS</a>
+      <button data-view="md" data-path="../05_risks/early_warnings_checklist.md">Riscos — Sinais</button>
+      <button data-view="csv" data-path="../05_risks/risk_register_template.csv">Riscos — Registo</button>
+      <button data-view="md" data-path="../06_checkpoints/initiation_checklist.md">Checklist</button>
+      <button data-view="md" data-path="../06_checkpoints/success_criteria.md">Critérios de Sucesso</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="tools">
+      <div class="tool">
+        <label>🔽 Abrir ficheiro local (.md ou .csv)
+          <input id="openLocal" type="file" accept=".md,.csv,text/markdown,text/csv" />
+        </label>
+      </div>
+      <div class="tool">
+        <button id="downloadBtn" disabled>💾 Descarregar alterações</button>
+        <span id="status" aria-live="polite"></span>
+      </div>
+    </section>
+
+    <section id="viewer" class="card" aria-live="polite">
+      <p>Escolhe um artefacto no topo para ver/editar.</p>
+    </section>
+  </main>
+
+  <footer>
+    <small>Site estático para apoio à fase Initiation — funciona offline (pode requerer abrir via <em>localhost</em> em alguns browsers para carregar ficheiros locais).</small>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

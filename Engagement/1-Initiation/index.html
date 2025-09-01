@@ -1,32 +1,121 @@
-<!doctype html>
-<html lang="pt-PT">
+<!DOCTYPE html>
+<html lang="pt-pt">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Engagement — Fase 1 — Initiation</title>
-  <link rel="stylesheet" href="../../assets/style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Governança de Dados: Fase de Iniciação</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f9; color: #333; }
+        h1, h2 { color: #2c3e50; }
+        .section { margin-bottom: 20px; padding: 15px; background-color: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        button { background-color: #3498db; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background-color: #2980b9; }
+        .feedback { margin-top: 10px; padding: 10px; border-radius: 5px; }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+        .neutral { background-color: #fff3cd; color: #856404; }
+        #simulation-output { font-style: italic; margin-top: 10px; }
+    </style>
 </head>
 <body>
-  <header class="header" role="banner">
-    <div class="header-inner container">
-      <div class="brand">Programa de Engagement — Governação de Dados</div>
-      <nav class="nav" role="navigation" aria-label="Navegação por fases">
-        <a href="../1-Initiation/index.html" class="active" aria-current="page">Fase 1 — Initiation</a>
-        <a href="../2-Definition/index.html" class="" aria-current="false">Fase 2 — Definition</a>
-        <a href="../3-Scope/index.html" class="" aria-current="false">Fase 3 — Scope</a>
-        <a href="../4-Assessment/index.html" class="" aria-current="false">Fase 4 — Assessment</a>
-        <a href="../5-Vision_and_Plan/index.html" class="" aria-current="false">Fase 5 — Vision and Plan</a>
-      </nav>
+    <h1>Simulador de Governança de Dados: Fase de Iniciação</h1>
+    <p>Baseado no Capítulo 7 ("Engajamento") de "Data Governance" de John Ladley. Simule o arranque de um programa de governança de dados (GD) para o Banco InovaData. Tome decisões e receba feedback!</p>
+    
+    <div class="section">
+        <h2>Passo 1: Obter Aprovação do Programa</h2>
+        <p>Conforme Ladley, assegure a aprovação da liderança para um programa sustentável, não apenas um projeto. Que abordagem escolhe?</p>
+        <select id="approval-choice">
+            <option value="">Selecione uma opção</option>
+            <option value="low-profile">Baixo perfil: Começar pequeno, verificar apoio discretamente.</option>
+            <option value="formal">Formal: Obter carta do CEO e patrocinadores.</option>
+            <option value="poc">Prova de Conceito: Tratar como projeto temporário.</option>
+        </select>
+        <button onclick="evaluateApproval()">Submeter</button>
+        <div id="approval-feedback" class="feedback"></div>
     </div>
-  </header>
-  <main class="container">
-    <p class="breadcrumbs"><a href="../../index.html">Início</a> / Engagement / 1 — Initiation</p>
-    <section class="panel">
-      <h1>Engagement — Fase 1 — Initiation</h1>
-      <p>Esta é a página inicial da fase <strong>1 — Initiation</strong> do Engagement.</p>
-      <p style="margin-top:1rem"><a class="btn" href="../../index.html">⬅️ Voltar ao Início</a></p>
-    </section>
-  </main>
-  <footer class="footer">© 2025 Programa de Governação de Dados — Engagement</footer>
+    
+    <div class="section">
+        <h2>Passo 2: Desenvolver Estrutura da Equipa de Rollout de GD</h2>
+        <p>Ladley recomenda uma equipa qualificada com patrocinadores. Inclua partes interessadas e evite armadilhas como recursos inadequados.</p>
+        <p>Escolha membros da equipa (selecione 4-6):</p>
+        <input type="checkbox" id="cdo" value="CDO"> CDO (Líder)<br>
+        <input type="checkbox" id="cio" value="CIO"> CIO (Co-patrocinador)<br>
+        <input type="checkbox" id="business" value="Diretor Comercial"> Diretor Comercial (Patrocinador)<br>
+        <input type="checkbox" id="compliance" value="Chefe de Conformidade"> Chefe de Conformidade<br>
+        <input type="checkbox" id="stewards" value="Data Stewards"> 2 Data Stewards (Risco/Retalho)<br>
+        <input type="checkbox" id="it-dev" value="Desenvolvedor TI"> Desenvolvedor TI (Sem qualificação para GD)<br>
+        <button onclick="evaluateTeam()">Formar Equipa</button>
+        <div id="team-feedback" class="feedback"></div>
+    </div>
+    
+    <div class="section">
+        <h2>Passo 3: Gerar Entregáveis</h2>
+        <p>Crie entregáveis rápidos como uma carta e organograma.</p>
+        <button onclick="generateDeliverables()">Simular Geração</button>
+        <div id="deliverables-output"></div>
+    </div>
+    
+    <div class="section">
+        <h2>Resumo da Simulação</h2>
+        <div id="simulation-output"></div>
+    </div>
+    
+    <script>
+        function evaluateApproval() {
+            const choice = document.getElementById("approval-choice").value;
+            const feedback = document.getElementById("approval-feedback");
+            if (choice === "formal") {
+                feedback.innerHTML = "Ótimo! Aprovação formal alinha-se com a ênfase de Ladley no suporte programático. Para o InovaData: CEO emite carta por 12 meses.";
+                feedback.className = "feedback success";
+            } else if (choice === "low-profile") {
+                feedback.innerHTML = "Bom para culturas resistentes, mas verifique a paixão dos patrocinadores conforme Ladley.";
+                feedback.className = "feedback neutral";
+            } else if (choice === "poc") {
+                feedback.innerHTML = "Evite! Ladley alerta contra a mentalidade de Prova de Conceito; leva a projetos não sustentáveis.";
+                feedback.className = "feedback error";
+            } else {
+                feedback.innerHTML = "Por favor, selecione uma opção.";
+                feedback.className = "feedback error";
+            }
+        }
+        
+        function evaluateTeam() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+            const selected = Array.from(checkboxes).map(cb => cb.value);
+            const feedback = document.getElementById("team-feedback");
+            if (selected.length < 4 || selected.length > 6) {
+                feedback.innerHTML = "O tamanho da equipa deve ser entre 4-6 FTEs conforme Ladley.";
+                feedback.className = "feedback error";
+                return;
+            }
+            if (selected.includes("Desenvolvedor TI")) {
+                feedback.innerHTML = "Aviso: Evite membros sem qualificação; Ladley nota isso como sinal de que o GD não é levado a sério.";
+                feedback.className = "feedback error";
+            } else if (selected.includes("CDO") && selected.includes("CIO") && selected.includes("Diretor Comercial") && selected.includes("Chefe de Conformidade") && selected.includes("Data Stewards")) {
+                feedback.innerHTML = "Equipa perfeita para o InovaData! Inclui paixão de patrocinadores e competências diversas (política, facilitação).";
+                feedback.className = "feedback success";
+            } else {
+                feedback.innerHTML = "Incompleto: Necessita patrocinador forte e competências diversas como especialistas em DM.";
+                feedback.className = "feedback neutral";
+            }
+        }
+        
+        function generateDeliverables() {
+            const output = document.getElementById("deliverables-output");
+            output.innerHTML = `
+                <h3>Carta Gerada (One-Pager):</h3>
+                <p>Programa de GD do Banco InovaData: Aprovado pelo CEO. Objetivos: Melhorar qualidade de dados para expansão. Prazo: 12 meses.</p>
+                <h3>Organograma:</h3>
+                <ul>
+                    <li>CDO (Líder)</li>
+                    <li>CIO & Diretor Comercial (Patrocinadores)</li>
+                    <li>Chefe de Conformidade</li>
+                    <li>Data Stewards</li>
+                </ul>
+                <h3>Calendário de Reuniões:</h3>
+                <p>Quinzenal com patrocinadores; Semanal com equipa.</p>
+            `;
+        }
+    </script>
 </body>
 </html>

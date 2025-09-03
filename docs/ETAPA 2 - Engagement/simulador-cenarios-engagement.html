@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Cenários de Engagement — ETAPA 2</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .card { background: #fff; border: 1px solid #e5e7eb; border-radius: 1rem; box-shadow: 0 4px 18px rgba(2,6,23,.06); }
+        .scenario-card { transition: all 0.3s ease; cursor: pointer; }
+        .scenario-card:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(2,6,23,.1); }
+        .choice-btn { transition: all 0.2s ease; }
+        .choice-btn:hover { transform: scale(1.02); }
+        .correct { background: #d4edda; border-color: #c3e6cb; color: #155724; }
+        .incorrect { background: #f8d7da; border-color: #f5c6cb; color: #721c24; }
+        .partial { background: #fff3cd; border-color: #ffeaa7; color: #856404; }
+        .progress-bar { transition: width 0.5s ease; }
+        .hint { font-size: .9rem; color: #475569; }
+        .score-badge { animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.8; } }
+    </style>
+</head>
+<body class="bg-gray-50 p-6">
+    <div class="max-w-6xl mx-auto">
+        <!-- Navegação -->
+        <nav class="mb-6">
+            <a href="../etapa-02-engagement/" class="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Voltar ao Índice da ETAPA 2 — Engagement
+            </a>
+        </nav>
+
+        <h1 class="text-3xl font-bold text-gray-900 mb-6">🎭 Simulador de Cenários de Engagement</h1>
+        <p class="text-gray-600 mb-8">Pratique estratégias de engagement enfrentando situações reais de resistência em projetos de Data Governance. Cada escolha afeta o seu sucesso!</p>
+
+        <!-- Dashboard de Progresso -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+            <div class="card p-4 text-center">
+                <div class="text-2xl font-bold text-blue-600" id="scenarioCounter">0/12</div>
+                <div class="text-sm text-gray-600">Cenários Completados</div>
+            </div>
+            <div class="card p-4 text-center">
+                <div class="text-2xl font-bold text-green-600" id="scoreDisplay">0</div>
+                <div class="text-sm text-gray-600">Pontuação Total</div>
+            </div>
+            <div class="card p-4 text-center">
+                <div class="text-2xl font-bold text-purple-600" id="levelDisplay">Iniciante</div>
+                <div class="text-sm text-gray-600">Nível Atual</div>
+            </div>
+            <div class="card p-4 text-center">
+                <div class="text-2xl font-bold text-orange-600" id="streakDisplay">0</div>
+                <div class="text-sm text-gray-600">Sequência Correta</div>
+            </div>
+        </div>
+
+        <!-- Barra de Progresso -->
+        <div class="card p-4 mb-8">
+            <div class="flex justify-between items-center mb-2">
+                <span class="text-sm text-gray-600">Progresso Geral</span>
+                <span class="text-sm text-gray-600" id="progressText">0%</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3">
+                <div class="progress-bar bg-blue-600 h-3 rounded-full" style="width: 0%" id="progressBar"></div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Coluna Esquerda: Cenário Atual -->
+            <div class="lg:col-span-2 space-y-6">
+                <div class="card p-6" id="scenarioCard">
+                    <div class="flex items-center mb-4">
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium" id="scenarioType">Selecione um cenário</span>
+                        <span class="ml-auto text-sm text-gray-500" id="scenarioDifficulty"></span>
+                    </div>
+                    
+                    <h3 class="text-xl font-semibold mb-4" id="scenarioTitle">Bem-vindo ao Simulador!</h3>
+                    <p class="text-gray-700 mb-6" id="scenarioDescription">
+                        Escolha um cenário na coluna da direita para começar a praticar estratégias de engagement. 
+                        Cada cenário apresenta uma situação real que pode encontrar em projetos de Data Governance.
+                    </p>
+
+                    <div id="choicesContainer" class="space-y-3 hidden">
+                        <!-- Choices will be populated by JavaScript -->
+                    </div>
+
+                    <div id="feedbackContainer" class="mt-6 hidden">
+                        <!-- Feedback will be shown here -->
+                    </div>
+
+                    <div class="flex space-x-3 mt-6">
+                        <button id="nextScenarioBtn" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors hidden">
+                            Próximo Cenário
+                        </button>
+                        <button id="restartBtn" class="bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700 transition-colors" onclick="reiniciarSimulador()">
+                            🔄 Reiniciar
+                        </button>
+                        <button id="exportBtn" class="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition-colors" onclick="exportarRelatorio()">
+                            📊 Exportar Relatório
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Coluna Direita: Lista de Cenários -->
+            <div class="space-y-6">
+                <div class="card p-6">
+                    <h3 class="text-lg font-semibold mb-4">🎯 Cenários Disponíveis</h3>
+                    <div id="scenariosList" class="space-y-3">
+                        <!-- Scenarios will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="card p-6">
+                    <h3 class="text-lg font-semibold mb-4">💡 Dicas de Engagement</h3>
+                    <div class="space-y-3 text-sm text-gray-600">
+                        <div class="flex items-start">
+                            <span class="text-green-600 mr-2">✓</span>
+                            <span>Ouça ativamente as preocupações dos stakeholders</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-green-600 mr-2">✓</span>
+                            <span>Demonstre valor concreto rapidamente</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-green-600 mr-2">✓</span>
+                            <span>Adapte a comunicação ao público-alvo</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-green-600 mr-2">✓</span>
+                            <span>Seja transparente sobre desafios</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-green-600 mr-2">✓</span>
+                            <span>Envolva resistentes como consultores</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-6">
+                    <h3 class="text-lg font-semibold mb-4">🏆 Níveis de Expertise</h3>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span>Iniciante</span>
+                            <span class="text-gray-500">0-30 pts</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Intermédio</span>
+                            <span class="text-gray-500">31-60 pts</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Avançado</span>
+                            <span class="text-gray-500">61-90 pts</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Especialista</span>
+                            <span class="text-gray-500">91+ pts</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentScenario = null;
+        let completedScenarios = [];
+        let totalScore = 0;
+        let currentStreak = 0;
+        let userChoices = [];
+
+        const scenarios = [
+            {
+                id: 1,
+                type: "Resistência Executiva",
+                title: "CEO Cético com ROI",
+                difficulty: "Alto",
+                description: "O CEO questiona: 'Já gastamos milhões em TI. Como é que esta 'governança de dados' vai realmente aumentar as nossas vendas?' Tem 15 minutos para convencê-lo.",
+                choices: [
+                    {
+                        text: "Apresentar casos de uso de concorrentes com ROI comprovado",
+                        score: 10,
+                        feedback: "Excelente! Dados concretos da indústria são muito persuasivos para CEOs.",
+                        type: "correct"
+                    },
+                    {
+                        text: "Explicar detalhadamente a arquitetura técnica da solução",
+                        score: 2,
+                        feedback: "CEOs focam em resultados de negócio, não em detalhes técnicos.",
+                        type: "incorrect"
+                    },
+                    {
+                        text: "Mostrar quick wins imediatos (30-60 dias) com métricas claras",
+                        score: 8,
+                        feedback: "Boa estratégia! Quick wins demonstram valor rapidamente.",
+                        type: "partial"
+                    },
+                    {
+                        text: "Argumentar que é obrigatório por compliance regulatório",
+                        score: 5,
+                        feedback: "Compliance é importante, mas CEOs preferem oportunidades a obrigações.",
+                        type: "partial"
+                    }
+                ]
+            },
+            {
+                id: 2,
+                type: "Conflito Departamental",
+                title: "Guerra entre IT e Negócio",
+                difficulty: "Médio",
+                description: "IT diz: 'Os dados estão limpos!' Marketing responde: 'Então porque é que 30% dos emails retornam?' Como mediar este conflito construtivamente?",
+                choices: [
+                    {
+                        text: "Organizar workshop conjunto para mapear fluxos de dados",
+                        score: 10,
+                        feedback: "Perfeito! Colaboração visual ajuda ambos os lados a entender o problema.",
+                        type: "correct"
+                    },
+                    {
+                        text: "Dar razão ao Marketing - os dados claramente têm problemas",
+                        score: 3,
+                        feedback: "Tomar partido piora o conflito. Foque na solução, não na culpa.",
+                        type: "incorrect"
+                    },
+                    {
+                        text: "Propor auditoria externa neutra aos dados",
+                        score: 7,
+                        feedback: "Boa ideia, mas pode ser vista como desconfiança. Tente colaboração primeiro.",
+                        type: "partial"
+                    },
+                    {
+                        text: "Implementar métricas conjuntas de qualidade de dados",
+                        score: 9,
+                        feedback: "Excelente! Métricas partilhadas alinham objetivos.",
+                        type: "correct"
+                    }
+                ]
+            },
+            {
+                id: 3,
+                type: "Resistência Cultural",
+                title: "Equipa Tradicional Resistente",
+                difficulty: "Alto",
+                description: "Gestor sénior com 25 anos na empresa: 'Sempre funcionou assim. Porque mudar agora? Esta 'governança' é só mais burocracia!'",
+                choices: [
+                    {
+                        text: "Respeitar a experiência e pedir conselhos sobre implementação gradual",
+                        score: 10,
+                        feedback: "Brilliant! Transformar resistência em consultoria é uma técnica avançada.",
+                        type: "correct"
+                    },
+                    {
+                        text: "Explicar que os tempos mudaram e é preciso adaptar-se",
+                        score: 4,
+                        feedback: "Muito direto. Pessoas experientes precisam sentir-se valorizadas, não criticadas.",
+                        type: "incorrect"
+                    },
+                    {
+                        text: "Mostrar exemplos de problemas causados pela falta de governança",
+                        score: 7,
+                        feedback: "Útil, mas pode soar como crítica. Combine com reconhecimento da experiência.",
+                        type: "partial"
+                    },
+                    {
+                        text: "Sugerir que lidere um piloto na sua área de expertise",
+                        score: 9,
+                        feedback: "Excelente! Dar ownership transforma resistentes em champions.",
+                        type: "correct"
+                    }
+                ]
+            },
+            {
+                id: 4,
+                type: "Pressão de Prazos",
+                title: "Projeto Urgente vs. Governança",
+                difficulty: "Alto",
+                description: "Diretor de projeto: 'Precisamos entregar este dashboard em 2 semanas para o conselho. Não temos tempo para 'governança'. Usamos os dados que temos!'",
+                choices: [
+                    {
+                        text: "Oferecer suporte rápido para validar dados críticos apenas",
+                        score: 10,
+                        feedback: "Perfeito! Flexibilidade com foco no essencial demonstra valor imediato.",
+                        type: "correct"
+                    },
+                    {
+                        text: "Insistir que sem governança o projeto vai falhar",
+                        score: 3,
+                        feedback: "Muito rígido. Em situações urgentes, seja pragmático mas útil.",
+                        type: "incorrect"
+                    },
+                    {
+                        text: "Propor governança retrospetiva após a entrega",
+                        score: 6,
+                        feedback: "Comprometedor, mas 'governança retrospetiva' raramente acontece na prática.",
+                        type: "partial"
+                    },
+                    {
+                        text: "Criar checklist rápido de qualidade para dados do dashboard",
+                        score: 8,
+                        feedback: "Boa solução prática! Checklist é governança light mas eficaz.",
+                        type: "partial"
+                    }
+                ]
+            },
+            {
+                id: 5,
+                type: "Questões de Recursos",
+                title: "Orçamento Limitado",
+                difficulty: "Médio",
+                description: "CFO: 'Entendo a importância, mas não temos budget. Podem fazer governança com recursos atuais?' Como responder construtivamente?",
+                choices: [
+                    {
+                        text: "Propor abordagem faseada começando com policies básicas",
+                        score: 10,
+                        feedback: "Excelente! Mostrar que DG pode começar pequeno mas estruturado.",
+                        type: "correct"
+                    },
+                    {
+                        text: "Explicar que governança séria requer investimento adequado",
+                        score: 5,
+                        feedback: "Verdade, mas não ajuda a resolver o problema do CFO.",
+                        type: "partial"
+                    },
+                    {
+                        text: "Sugerir usar violações de dados como business case para budget",
+                        score: 4,
+                        feedback: "Usar 'fear mongering' pode funcionar, mas não constrói partnership genuíno.",
+                        type: "incorrect"
+                    },
+                    {
+                        text: "Calcular custo de má qualidade de dados vs. investimento DG",
+                        score: 9,
+                        feedback: "Muito bom! CFOs respondem bem a análises custo-benefício claras.",
+                        type: "correct"
+                    }
+                ]
+            },
+            {
+                id: 6,
+                type: "Complexidade Técnica",
+                title: "Arquiteto Cético",
+                difficulty: "Médio",
+                description: "Arquiteto chefe: 'A nossa infraestrutura é muito complexa. Esta governança vai quebrar tudo. Já temos problemas de performance...'",
+                choices: [
+                    {
+                        text: "Propor implementação por camadas, começando com metadata",
+                        score: 9,
+                        feedback: "Excelente abordagem técnica! Metadata é menos invasivo mas muito valioso.",
+                        type: "correct"
+                    },
+                    {
+                        text: "Garantir que governança não afeta performance dos sistemas",
+                        score: 6,
+                        feedback: "Garantias vazias não tranquilizam arquitetos. Seja mais específico.",
+                        type: "partial"
+                    },
+                    {
+                        text: "Sugerir auditoria de arquitetura antes de implementar DG",
+                        score: 8,
+                        feedback: "Boa! Arquitetos apreciam avaliação técnica cuidadosa.",
+                        type: "partial"
+                    },
+                    {
+                        text: "Envolvê-lo no design da solução de governança",
+                        score: 10,
+                        feedback: "Perfeito! Ownership técnico elimina resistência e melhora a solução.",
+                        type: "correct"
+                    }
+                ]
+            },
+            {
+                id: 7,
+                type: "Stakeholder Neutro",
+                title: "Gestor Indiferente",
+                difficulty: "Baixo",
+                description: "Gestor de vendas: 'Tanto me faz. Se não afetar as minhas equipas nem os números, façam o que quiserem.' Como engajar?",
+                choices: [
+                    {
+                        text: "Mostrar como DG pode melhorar insights de vendas",
+                        score: 10,
+                        feedback: "Perfeito! Conectar DG aos KPIs dele gera interesse genuíno.",
+                        type: "correct"
+                    },
+                    {
+                        text: "Aceitar a neutralidade e seguir em frente",
+                        score: 5,
+                        feedback: "Neutralidade pode virar resistência mais tarde. Melhor engajar agora.",
+                        type: "partial"
+                    },
+                    {
+                        text: "Explicar que governança eventualmente afetará todos",
+                        score: 4,
+                        feedback: "Soa ameaçador. Foque em benefícios, não em 'eventuais impactos'.",
+                        type: "incorrect"
+                    },
+                    {
+                        text: "Pedir para ser advisor do projeto na perspetiva de vendas",
+                        score: 8,
+                        feedback: "Boa estratégia! Dar papel consultivo transforma indiferença em interesse.",
+                        type: "partial"
+                    }
+                ]
+            },
+            {
+                id: 8,
+                type: "Conflito de Prioridades",
+                title: "Múltiplos Projetos Concorrentes",
+                difficulty: "Alto",
+                description: "VP Tecnologia: 'Temos migração cloud, implementação CRM e upgrade ERP. Governança fica para 2025.' Como priorizar DG?",
+                choices: [
+                    {
+                        text: "Demonstrar como DG suporta e melhora todos esses projetos",
+                        score: 10,
+                        feedback: "Brilliant! Posicionar DG como enabler, não como competitor.",
+                        type: "correct"
+                    },
+                    {
+                        text: "Argumentar que DG deve ser prioridade máxima",
+                        score: 3,
+                        feedback: "Competir por prioridade raramente funciona. Busque sinergia.",
+                        type: "incorrect"
+                    },
+                    {
+                        text: "Sugerir governança mínima integrada nos projetos existentes",
+                        score: 8,
+                        feedback: "Pragmático! DG embutido em projetos é menos resistência.",
+                        type: "partial"
+                    },
+                    {
+                        text: "Propor que cada projeto tenha componente de governança",
+                        score: 9,
+                        feedback: "Excelente! Cada projeto se torna um piloto de DG.",
+                        type: "correct"
+                    }
+                ]
+            },
+            {
+                id: 9,
+                type: "Questões Legais",
+                title: "Advogado Preocupado",
+                difficulty: "Médio",
+                description: "Jurídico: 'Centralizar governança de dados aumenta nossa responsabilidade legal. E se algo correr mal? Preferimos descentralizado...'",
+                choices: [
+                    {
+                        text: "Explicar que governança reduz riscos legais via controlos",
+                        score: 8,
+                        feedback: "Correto! Mas jurídicos precisam de exemplos concretos de proteção legal.",
+                        type: "partial"
+                    },
+                    {
+                        text: "Propor framework que distribui responsabilidades claramente",
+                        score: 10,
+                        feedback: "Perfeito! Clareza de responsabilidades é o que jurídicos mais valorizam.",
+                        type: "correct"
+                    },
+                    {
+                        text: "Garantir que jurídico aprova todas as policies de dados",
+                        score: 7,
+                        feedback: "Bom envolvimento, mas pode tornar processo muito lento.",
+                        type: "partial"
+                    },
+                    {
+                        text: "Mostrar como outras empresas geriram riscos legais em DG",
+                        score: 9,
+                        feedback: "Excelente! Jurídicos confiam em precedentes e benchmarks.",
+                        type: "correct"
+                    }
+                ]
+            },
+            {
+                id: 10,
+                type: "Questões de Competências",
+                title: "Equipa Sem Formação",
+                difficulty: "Médio",
+                description: "Gestor de RH: 'A nossa equipa não tem competências para esta 'governança'. Seria preciso formação massiva que não temos budget...'",
+                choices: [
+                    {
+                        text: "Propor upskilling gradual da equipa interna",
+                        score: 8,
+                        feedback: "Boa abordagem! Desenvolvimento interno gera ownership.",
+                        type: "partial"
+                    },
+                    {
+                        text: "Sugerir começar com consultores e transfer knowledge",
+                        score: 7,
+                        feedback: "Pragmático, mas garanta que há transfer real de conhecimento.",
+                        type: "partial"
+                    },
+                    {
+                        text: "Criar programa de 'champions' internos com formação focada",
+                        score: 10,
+                        feedback: "Excelente! Champions distribuem conhecimento e reduzem custos.",
+                        type: "correct"
+                    },
+                    {
+                        text: "Argumentar que é investimento essencial no futuro",
+                        score: 5,
+                        feedback: "Verdade, mas não resolve o problema imediato de budget do RH.",
+                        type: "partial"
+                    }
+                ]
+            },
+            {
+                id: 11,
+                type: "Pressão Regulatória",
+                title: "Auditoria Surpresa",
+                difficulty: "Alto",
+                description: "Compliance: 'Temos auditoria externa na próxima semana. Descobriram gaps enormes de dados. Podem resolver isto em 5 dias?'",
+                choices: [
+                    {
+                        text: "Criar documentação rápida do estado atual dos dados",
+                        score: 9,
+                        feedback: "Excelente resposta de crise! Transparência ajuda com auditores.",
+                        type: "correct"
+                    },
+                    {
+                        text: "Explicar que governança adequada leva meses",
+                        score: 4,
+                        feedback: "Tecnicamente correto, mas não ajuda na crise atual.",
+                        type: "incorrect"
+                    },
+                    {
+                        text: "Focar nos dados críticos para a auditoria apenas",
+                        score: 10,
+                        feedback: "Perfect! Triage inteligente em situação de crise.",
+                        type: "correct"
+                    },
+                    {
+                        text: "Sugerir contratar consultores especialistas em compliance",
+                        score: 7,
+                        feedback: "Pode ajudar, mas em 5 dias é difícil conseguir e integrar consultores.",
+                        type: "partial"
+                    }
+                ]
+            },
+            {
+                id: 12,
+                type: "Sucesso Inicial",
+                title: "Expansão Prematura",
+                difficulty: "Médio",
+                description: "Sponsor entusiasmado: 'O piloto correu muito bem! Vamos implementar em toda a empresa no próximo mês!' Como gerir expectativas?",
+                choices: [
+                    {
+                        text: "Celebrar sucesso mas propor expansão faseada e estruturada",
+                        score: 10,
+                        feedback: "Perfeito! Balança entusiasmo com realismo operacional.",
+                        type: "correct"
+                    },
+                    {
+                        text: "Concordar totalmente e acelerar implementação",
+                        score: 4,
+                        feedback: "Perigoso! Expansão muito rápida pode comprometer qualidade.",
+                        type: "incorrect"
+                    },
+                    {
+                        text: "Explicar todos os riscos de expansão rápida",
+                        score: 6,
+                        feedback: "Importante, mas pode desmotivar o sponsor. Balance riscos com oportunidades.",
+                        type: "partial"
+                    },
+                    {
+                        text: "Propor roadmap com marcos claros e métricas de sucesso",
+                        score: 9,
+                        feedback: "Excelente! Estrutura mantém momentum mas garante qualidade.",
+                        type: "correct"
+                    }
+                ]
+            }
+        ];
+
+        function initializeSimulator() {
+            renderScenariosList();
+            updateDashboard();
+        }
+
+        function renderScenariosList() {
+            const container = document.getElementById('scenariosList');
+            container.innerHTML = '';
+
+            scenarios.forEach(scenario => {
+                const isCompleted = completedScenarios.includes(scenario.id);
+                const card = document.createElement('div');
+                card.className = `scenario-card p-3 border rounded-lg ${isCompleted ? 'bg-green-50 border-green-200' : 'bg-white border-gray-200'}`;
+                card.onclick = () => loadScenario(scenario);
+
+                card.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <div class="font-medium text-sm">${scenario.title}</div>
+                            <div class="text-xs text-gray-500">${scenario.type}</div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-xs px-2 py-1 rounded ${getDifficultyColor(scenario.difficulty)}">${scenario.difficulty}</span>
+                            ${isCompleted ? '<span class="text-green-600">✓</span>' : ''}
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        function getDifficultyColor(difficulty) {
+            switch(difficulty) {
+                case 'Baixo': return 'bg-green-100 text-green-800';
+                case 'Médio': return 'bg-yellow-100 text-yellow-800';
+                case 'Alto': return 'bg-red-100 text-red-800';
+                default: return 'bg-gray-100 text-gray-800';
+            }
+        }
+
+        function loadScenario(scenario) {
+            currentScenario = scenario;
+            
+            document.getElementById('scenarioType').textContent = scenario.type;
+            document.getElementById('scenarioDifficulty').textContent = `Dificuldade: ${scenario.difficulty}`;
+            document.getElementById('scenarioTitle').textContent = scenario.title;
+            document.getElementById('scenarioDescription').textContent = scenario.description;
+            
+            renderChoices(scenario.choices);
+            
+            document.getElementById('choicesContainer').classList.remove('hidden');
+            document.getElementById('feedbackContainer').classList.add('hidden');
+            document.getElementById('nextScenarioBtn').classList.add('hidden');
+        }
+
+        function renderChoices(choices) {
+            const container = document.getElementById('choicesContainer');
+            container.innerHTML = '';
+
+            choices.forEach((choice, index) => {
+                const button = document.createElement('button');
+                button.className = 'choice-btn w-full p-4 text-left border border-gray-300 rounded-lg hover:border-blue-500 transition-all';
+                button.textContent = choice.text;
+                button.onclick = () => selectChoice(choice, index);
+                container.appendChild(button);
+            });
+        }
+
+        function selectChoice(choice, choiceIndex) {
+            // Disable all buttons
+            const buttons = document.querySelectorAll('.choice-btn');
+            buttons.forEach(btn => btn.disabled = true);
+
+            // Highlight selected choice
+            buttons[choiceIndex].classList.add(choice.type);
+
+            // Update score and streak
+            totalScore += choice.score;
+            if (choice.score >= 8) {
+                currentStreak++;
+            } else {
+                currentStreak = 0;
+            }
+
+            // Record choice
+            userChoices.push({
+                scenarioId: currentScenario.id,
+                scenarioTitle: currentScenario.title,
+                choice: choice.text,
+                score: choice.score,
+                feedback: choice.feedback
+            });
+
+            // Mark scenario as completed
+            if (!completedScenarios.includes(currentScenario.id)) {
+                completedScenarios.push(currentScenario.id);
+            }
+
+            // Show feedback
+            showFeedback(choice);
+            
+            // Update dashboard
+            updateDashboard();
+            renderScenariosList();
+            
+            // Show next button
+            document.getElementById('nextScenarioBtn').classList.remove('hidden');
+        }
+
+        function showFeedback(choice) {
+            const container = document.getElementById('feedbackContainer');
+            container.innerHTML = `
+                <div class="p-4 border rounded-lg ${choice.type === 'correct' ? 'border-green-300 bg-green-50' : choice.type === 'partial' ? 'border-yellow-300 bg-yellow-50' : 'border-red-300 bg-red-50'}">
+                    <div class="flex items-center mb-2">
+                        <span class="text-lg mr-2">${choice.type === 'correct' ? '🎉' : choice.type === 'partial' ? '⚡' : '💡'}</span>
+                        <span class="font-semibold">Pontuação: ${choice.score}/10</span>
+                    </div>
+                    <p>${choice.feedback}</p>
+                </div>
+            `;
+            container.classList.remove('hidden');
+        }
+
+        function updateDashboard() {
+            document.getElementById('scenarioCounter').textContent = `${completedScenarios.length}/${scenarios.length}`;
+            document.getElementById('scoreDisplay').textContent = totalScore;
+            document.getElementById('streakDisplay').textContent = currentStreak;
+            
+            // Update level
+            let level = 'Iniciante';
+            if (totalScore > 90) level = 'Especialista';
+            else if (totalScore > 60) level = 'Avançado';
+            else if (totalScore > 30) level = 'Intermédio';
+            document.getElementById('levelDisplay').textContent = level;
+            
+            // Update progress
+            const progress = (completedScenarios.length / scenarios.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('progressText').textContent = Math.round(progress) + '%';
+        }
+
+        function getNextScenario() {
+            const remaining = scenarios.filter(s => !completedScenarios.includes(s.id));
+            if (remaining.length > 0) {
+                return remaining[Math.floor(Math.random() * remaining.length)];
+            }
+            return null;
+        }
+
+        function reiniciarSimulador() {
+            if (confirm('Tem a certeza que deseja reiniciar o simulador? Todo o progresso será perdido.')) {
+                currentScenario = null;
+                completedScenarios = [];
+                totalScore = 0;
+                currentStreak = 0;
+                userChoices = [];
+                
+                // Reset UI
+                document.getElementById('scenarioTitle').textContent = 'Bem-vindo ao Simulador!';
+                document.getElementById('scenarioDescription').textContent = 'Escolha um cenário na coluna da direita para começar a praticar estratégias de engagement.';
+                document.getElementById('choicesContainer').classList.add('hidden');
+                document.getElementById('feedbackContainer').classList.add('hidden');
+                document.getElementById('nextScenarioBtn').classList.add('hidden');
+                
+                updateDashboard();
+                renderScenariosList();
+            }
+        }
+
+        function exportarRelatorio() {
+            const BOM = '\ufeff';
+            let csv = BOM + 'Cenário;Escolha;Pontuação;Feedback\n';
+            
+            userChoices.forEach(choice => {
+                csv += `"${choice.scenarioTitle}";"${choice.choice}";${choice.score};"${choice.feedback}"\n`;
+            });
+            
+            csv += `\nResumo Final:\n`;
+            csv += `Cenários Completados;${completedScenarios.length}/${scenarios.length}\n`;
+            csv += `Pontuação Total;${totalScore}\n`;
+            csv += `Nível Final;${document.getElementById('levelDisplay').textContent}\n`;
+            
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'relatorio-engagement-simulator.csv';
+            link.click();
+        }
+
+        // Event listeners
+        document.getElementById('nextScenarioBtn').addEventListener('click', () => {
+            const next = getNextScenario();
+            if (next) {
+                loadScenario(next);
+            } else {
+                alert('Parabéns! Completou todos os cenários disponíveis! 🎉');
+            }
+        });
+
+        // Initialize on page load
+        initializeSimulator();
+    </script>
+</body>
+</html>

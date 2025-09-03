@@ -121,9 +121,6 @@ Maria Silva, Diretora de Transformação Digital
 
 
 
-[Ir para a Atividade 1: One-pager do Business Case](./ETAPA%201%20-%20Business%20Case/atividade-onepager.html)
-
-
 
 ### Atividade 2 — Tabela de custo-benefício (Exemplo INOVADATA)
 | Cenário       | Custos Estimados | Benefícios Esperados                 | Riscos Mitigados                   |

@@ -51,7 +51,6 @@
   - 2 riscos a mitigar
   - 1 métrica de sucesso (KPI)
 
-[Ir para a Atividade 1: One-pager do Business Case](./ETAPA%201%20-%20Business%20Case/atividade-onepager.html)
 
 ## Modelo de One-Pager — Business Case para Governança de Dados (Exemplo INOVADATA)
 
@@ -72,6 +71,12 @@ Maria Silva, Diretora de Transformação Digital
 
 **Métrica de Sucesso (KPI):**  
 - % de dados críticos dos clientes com steward nomeado
+
+
+
+[Ir para a Atividade 1: One-pager do Business Case](./ETAPA%201%20-%20Business%20Case/atividade-onepager.html)
+
+
 
 ### Atividade 2 — Tabela de custo-benefício (Exemplo INOVADATA)
 | Cenário       | Custos Estimados | Benefícios Esperados                 | Riscos Mitigados                   |

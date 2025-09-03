@@ -6,8 +6,6 @@
   <title>Atividade — One-Pager do Business Case (Banco)</title>
   <!-- Tailwind via CDN (para layout rápido) -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="../assets/stylesheets/main.css">
-  <link rel="stylesheet" href="../assets/stylesheets/palette.css">
   <style>
     .kbd{border:1px solid #ddd;border-bottom-width:2px;border-right-width:2px;border-radius:.4rem;padding:.15rem .35rem;font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;font-size:.85rem;background:#f8fafc}
     .hint{font-size:.9rem;color:#475569}
@@ -15,131 +13,99 @@
     .req::after{content:" *"; color:#dc2626; font-weight:700}
     textarea{resize:vertical}
     .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace}
-    .invalid {
-      border-color: #dc2626;
-      background-color: #fee2e2;
-    }
   </style>
 </head>
-<body>
-  <header class="md-header" data-md-component="header">
-    <nav class="md-header__inner md-grid" aria-label="Header">
-      <a href="../" title="GSD Academy" class="md-header__button md-logo" aria-label="GSD Academy" data-md-component="logo">
-        <img src="../assets/logo.png" alt="logo">
-      </a>
-      <label class="md-header__button md-icon" for="__drawer">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
-      </label>
-      <div class="md-header__title" data-md-component="header-title">
-        <div class="md-header__ellipsis">
-          <div class="md-header__topic">
-            <span class="md-ellipsis">GSD Academy</span>
-          </div>
-          <div class="md-header__topic" data-md-component="page-toc">
-            <span class="md-ellipsis">Atividade — One-Pager do Business Case</span>
-          </div>
-        </div>
-      </div>
-    </nav>
+<body class="bg-slate-50 text-slate-800">
+  <header class="bg-indigo-700 text-white">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+      <h1 class="text-xl md:text-2xl font-semibold">Atividade — One-Pager do Business Case</h1>
+      <div class="text-sm opacity-90">Cenário: Banco | Programa de Governança de Dados</div>
+    </div>
   </header>
 
-  <div class="md-main">
-    <div class="md-main__inner md-grid">
-      <div class="md-content" data-md-component="content">
-        <article class="md-content__inner md-typeset">
-          <a href="../etapa-01-business-case" class="md-button md-button--primary">
-            <span class="twemoji">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
-            </span>
-            Voltar à Etapa 1
-          </a>
+  <main class="max-w-7xl mx-auto px-4 py-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- FORMULÁRIO -->
+    <section class="card p-5">
+      <h2 class="text-lg font-semibold mb-3">Preenchimento (lado esquerdo)</h2>
+      <p class="hint mb-4">
+        Objetivo: gerar um <em>one-pager</em> que legitime o Programa de Governança de Dados num banco (à luz de Ladley). 
+        Preencha os campos e use <span class="kbd">Exportar</span> para obter Markdown/JSON ou <span class="kbd">Imprimir/PDF</span>.
+      </p>
 
-          <!-- FORMULÁRIO -->
-          <section class="card p-5">
-            <h2 class="text-lg font-semibold mb-3">Preenchimento (lado esquerdo)</h2>
-            <p class="hint mb-4">
-              Objetivo: gerar um <em>one-pager</em> que legitime o Programa de Governança de Dados num banco (à luz de Ladley). 
-              Preencha os campos e use <span class="kbd">Exportar</span> para obter Markdown/JSON ou <span class="kbd">Imprimir/PDF</span>.
-            </p>
+      <form id="form" class="space-y-4">
+        <div>
+          <label class="block font-medium req">Objetivo do programa</label>
+          <textarea id="objetivo" rows="3" class="mt-1 w-full rounded-lg border-slate-300" placeholder="Ex.: Estabelecer capacidades de governança (papéis, políticas e métricas) para reduzir riscos e aumentar o valor dos dados em 12 meses."></textarea>
+          <p class="hint mt-1">Alinhar com a estratégia do banco e metas mensuráveis.</p>
+        </div>
 
-            <form id="form" class="space-y-4">
-              <div>
-                <label class="block font-medium req">Objetivo do programa</label>
-                <textarea id="objetivo" rows="3" class="mt-1 w-full rounded-lg border-slate-300" placeholder="Ex.: Estabelecer capacidades de governança (papéis, políticas e métricas) para reduzir riscos e aumentar o valor dos dados em 12 meses." aria-label="Objetivo do programa" aria-required="true"></textarea>
-                <p class="hint mt-1">Alinhar com a estratégia do banco e metas mensuráveis.</p>
-              </div>
+        <div>
+          <label class="block font-medium req">Sponsor executivo</label>
+          <input id="sponsor" type="text" class="mt-1 w-full rounded-lg border-slate-300" placeholder="Ex.: CFO, COO, CRO, CDO Executivo"/>
+          <p class="hint mt-1">Idealmente alguém com influência transversal (C-level) e mandato claro.</p>
+        </div>
 
-              <div>
-                <label class="block font-medium req">Sponsor executivo</label>
-                <input id="sponsor" type="text" class="mt-1 w-full rounded-lg border-slate-300" placeholder="Ex.: CFO, COO, CRO, CDO Executivo" aria-label="Sponsor executivo" aria-required="true"/>
-                <p class="hint mt-1">Idealmente alguém com influência transversal (C-level) e mandato claro.</p>
-              </div>
+        <!-- Benefícios -->
+        <div>
+          <label class="block font-medium req">4 Benefícios principais</label>
+          <div id="beneficios" class="space-y-2 mt-2"></div>
+          <p class="hint mt-1">Ex.: redução de retrabalho; melhoria da qualidade; aceleração de análise; conformidade RGPD/BCBS.</p>
+        </div>
 
-              <!-- Benefícios -->
-              <div>
-                <label class="block font-medium req">4 Benefícios principais</label>
-                <div id="beneficios" class="space-y-2 mt-2"></div>
-                <p class="hint mt-1">Ex.: redução de retrabalho; melhoria da qualidade; aceleração de análise; conformidade RGPD/BCBS.</p>
-              </div>
+        <!-- Riscos -->
+        <div>
+          <label class="block font-medium req">4 Riscos a mitigar</label>
+          <div id="riscos" class="space-y-2 mt-2"></div>
+          <p class="hint mt-1">Ex.: dados mestres inconsistentes; acessos excessivos; falhas de linhagem; sanções regulatórias.</p>
+        </div>
 
-              <!-- Riscos -->
-              <div>
-                <label class="block font-medium req">4 Riscos a mitigar</label>
-                <div id="riscos" class="space-y-2 mt-2"></div>
-                <p class="hint mt-1">Ex.: dados mestres inconsistentes; acessos excessivos; falhas de linhagem; sanções regulatórias.</p>
-              </div>
+        <!-- KPIs -->
+        <div>
+          <label class="block font-medium req">4 Métricas de sucesso (KPIs)</label>
+          <div id="kpis" class="space-y-2 mt-2"></div>
+          <p class="hint mt-1">Ex.: % domínios com steward; nº incidentes de qualidade; tempo de ciclo de pedidos; % dados classificados.</p>
+        </div>
 
-              <!-- KPIs -->
-              <div>
-                <label class="block font-medium req">4 Métricas de sucesso (KPIs)</label>
-                <div id="kpis" class="space-y-2 mt-2"></div>
-                <p class="hint mt-1">Ex.: % domínios com steward; nº incidentes de qualidade; tempo de ciclo de pedidos; % dados classificados.</p>
-              </div>
+        <div class="flex flex-wrap gap-2 pt-2">
+          <button type="button" id="btn-exemplo" class="rounded-lg bg-slate-200 hover:bg-slate-300 px-3 py-2">Preencher exemplo</button>
+          <button type="button" id="btn-limpar" class="rounded-lg bg-white border px-3 py-2">Limpar</button>
+          <button type="button" id="btn-guardar" class="rounded-lg bg-indigo-600 text-white px-3 py-2 hover:bg-indigo-700">Guardar (browser)</button>
+          <button type="button" id="btn-md" class="rounded-lg bg-emerald-600 text-white px-3 py-2 hover:bg-emerald-700">Exportar Markdown</button>
+          <button type="button" id="btn-json" class="rounded-lg bg-teal-600 text-white px-3 py-2 hover:bg-teal-700">Exportar JSON</button>
+          <button type="button" id="btn-copiar" class="rounded-lg bg-yellow-500 text-white px-3 py-2 hover:bg-yellow-600">Copiar Markdown</button>
+          <button type="button" id="btn-print" class="rounded-lg bg-slate-800 text-white px-3 py-2">Imprimir / PDF</button>
+        </div>
+        <p class="hint pt-1">Dados guardados no <strong>localStorage</strong> do navegador (apenas neste dispositivo). Não há envio para servidor.</p>
+      </form>
 
-              <div class="flex flex-wrap gap-2 pt-2">
-                <button type="button" id="btn-exemplo" class="rounded-lg bg-slate-200 hover:bg-slate-300 px-3 py-2">Preencher exemplo</button>
-                <button type="button" id="btn-limpar" class="rounded-lg bg-white border px-3 py-2">Limpar</button>
-                <button type="button" id="btn-guardar" class="rounded-lg bg-indigo-600 text-white px-3 py-2 hover:bg-indigo-700">Guardar (browser)</button>
-                <button type="button" id="btn-md" class="rounded-lg bg-emerald-600 text-white px-3 py-2 hover:bg-emerald-700">Exportar Markdown</button>
-                <button type="button" id="btn-json" class="rounded-lg bg-teal-600 text-white px-3 py-2 hover:bg-teal-700">Exportar JSON</button>
-                <button type="button" id="btn-copiar" class="rounded-lg bg-yellow-500 text-white px-3 py-2 hover:bg-yellow-600">Copiar Markdown</button>
-                <button type="button" id="btn-print" class="rounded-lg bg-slate-800 text-white px-3 py-2">Imprimir / PDF</button>
-                <button type="button" id="btn-html" class="rounded-lg bg-blue-600 text-white px-3 py-2 hover:bg-blue-700">Exportar HTML</button>
-              </div>
-              <p class="hint pt-1">Dados guardados no <strong>localStorage</strong> do navegador (apenas neste dispositivo). Não há envio para servidor.</p>
-            </form>
+      <hr class="my-5"/>
 
-            <hr class="my-5"/>
+      <details class="mt-2">
+        <summary class="cursor-pointer font-medium">Guião (Ladley) & Enquadramento (ISO/RGPD)</summary>
+        <ul class="list-disc pl-6 mt-2 text-sm leading-6">
+          <li><strong>Ladley — Business Case</strong>: visão, riscos de não agir, custos da má qualidade, oportunidades, <em>data debt</em>, obstáculos/impactos/mudanças, processo de validação com stakeholders.</li>
+          <li><strong>ISO/IEC 27001</strong>: alinhar com objetivos de segurança; incluir controlos relevantes (acessos, classificação, retenção, logging).</li>
+          <li><strong>RGPD</strong>: privacy-by-design, minimização, bases legais; avaliar se é necessária AIPD (DPIA) em certos casos.</li>
+        </ul>
+      </details>
+    </section>
 
-            <details class="mt-2">
-              <summary class="cursor-pointer font-medium">Guião (Ladley) & Enquadramento (ISO/RGPD)</summary>
-              <ul class="list-disc pl-6 mt-2 text-sm leading-6">
-                <li><strong>Ladley — Business Case</strong>: visão, riscos de não agir, custos da má qualidade, oportunidades, <em>data debt</em>, obstáculos/impactos/mudanças, processo de validação com stakeholders.</li>
-                <li><strong>ISO/IEC 27001</strong>: alinhar com objetivos de segurança; incluir controlos relevantes (acessos, classificação, retenção, logging).</li>
-                <li><strong>RGPD</strong>: privacy-by-design, minimização, bases legais; avaliar se é necessária AIPD (DPIA) em certos casos.</li>
-              </ul>
-            </details>
-          </section>
+    <!-- PRÉ-VISUALIZAÇÃO -->
+    <section class="card p-5">
+      <h2 class="text-lg font-semibold mb-3">Pré-visualização (lado direito)</h2>
 
-          <!-- PRÉ-VISUALIZAÇÃO -->
-          <section class="card p-5">
-            <h2 class="text-lg font-semibold mb-3">Pré-visualização (lado direito)</h2>
-
-            <div class="grid grid-cols-1 gap-3">
-              <div>
-                <label class="block text-sm font-medium mb-1">Markdown gerado</label>
-                <textarea id="md" rows="18" class="w-full rounded-lg border-slate-300 mono"></textarea>
-              </div>
-              <div>
-                <label class="block text-sm font-medium mb-1">Renderização rápida</label>
-                <article id="render" class="prose max-w-none"></article>
-              </div>
-            </div>
-          </section>
-        </article>
+      <div class="grid grid-cols-1 gap-3">
+        <div>
+          <label class="block text-sm font-medium mb-1">Markdown gerado</label>
+          <textarea id="md" rows="18" class="w-full rounded-lg border-slate-300 mono"></textarea>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Renderização rápida</label>
+          <article id="render" class="prose max-w-none"></article>
+        </div>
       </div>
-    </div>
-  </div>
+    </section>
+  </main>
 
   <footer class="text-center text-sm text-slate-500 py-6">
     © GSD Academy — atividade “One-Pager do Business Case (Banco)”. Guardado localmente; exporte para Markdown/JSON ou PDF.
@@ -298,10 +264,8 @@ ${list(d.kpis)}
     });
 
     $('#btn-guardar').addEventListener('click', ()=>{
-      if (validateForm()) {
-        localStorage.setItem(KEY, JSON.stringify(readForm()));
-        alert('Guardado no navegador (localStorage).');
-      }
+      localStorage.setItem(KEY, JSON.stringify(readForm()));
+      alert('Guardado no navegador (localStorage).');
     });
 
     $('#btn-md').addEventListener('click', ()=>{
@@ -319,44 +283,146 @@ ${list(d.kpis)}
 
     $('#btn-print').addEventListener('click', ()=>{ window.print(); });
 
-    $('#btn-html').addEventListener('click', ()=>{
-      const html = `
-        <!DOCTYPE html>
-        <html>
-          <body>
-            ${$('#render').innerHTML}
-          </body>
-        </html>
-      `;
-      dl('onepager-business-case.html', html, 'text/html;charset=utf-8');
-    });
-
     // ---------- load state ----------
     const saved = localStorage.getItem(KEY);
     if (saved) { try { writeForm(JSON.parse(saved)); } catch(e){ render(); } }
     else { render(); }
+  </script>
+</body>
+</html>
 
-    // Adicionar ao script
-    let autoSaveTimeout;
-    function enableAutoSave() {
-      ['objetivo','sponsor'].forEach(id => {
-        $('#'+id).addEventListener('input', ()=> {
-          clearTimeout(autoSaveTimeout);
-          autoSaveTimeout = setTimeout(()=> {
-            localStorage.setItem(KEY, JSON.stringify(readForm()));
-          }, 1000);
-        });
-      });
-    }
-    enableAutoSave();
+<header class="md-header bg-white shadow">
+  </header>
 
-    function showToast(message) {
-      const toast = document.createElement('div');
-      toast.className = 'fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded-lg';
-      toast.textContent = message;
-      document.body.appendChild(toast);
-      setTimeout(() => toast.remove(), 3000);
-    }
+  <main class="md-main max-w-7xl mx-auto p-6">
+    <div class="md-main__inner md-grid">
+      <div class="md-content">
+        <article class="md-content__inner md-typeset">
+          <a href="/GSD-ACADEMY/etapa-01-business-case/" class="md-button md-button--primary flex items-center gap-2 mb-4 text-indigo-600 hover:text-indigo-800">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+            </svg>
+            Voltar à Etapa 1 - Business Case
+          </a>
+
+          <!-- FORMULÁRIO -->
+          <section class="card p-5">
+            <h2 class="text-lg font-semibold mb-3">Preenchimento</h2>
+            <p class="hint mb-4">
+              Preencha os campos abaixo para gerar o <em>one-pager</em>. Você pode salvar os dados no navegador ou exportar para Markdown/JSON.
+            </p>
+
+            <form id="form" class="space-y-4">
+              <div>
+                <label class="block font-medium req">Objetivo do programa</label>
+                <textarea id="objetivo" rows="3" class="mt-1 w-full rounded-lg border-slate-300" placeholder="Ex.: Estabelecer capacidades de governança..." required></textarea>
+              </div>
+
+              <div>
+                <label class="block font-medium req">Sponsor executivo</label>
+                <input id="sponsor" type="text" class="mt-1 w-full rounded-lg border-slate-300" placeholder="Ex.: CFO, COO, CRO..." required />
+              </div>
+
+              <div>
+                <label class="block font-medium req">4 Benefícios principais</label>
+                <textarea id="beneficios" rows="4" class="mt-1 w-full rounded-lg border-slate-300" placeholder="Liste os benefícios separados por vírgula..." required></textarea>
+              </div>
+
+              <div>
+                <label class="block font-medium req">4 Riscos a mitigar</label>
+                <textarea id="riscos" rows="4" class="mt-1 w-full rounded-lg border-slate-300" placeholder="Liste os riscos separados por vírgula..." required></textarea>
+              </div>
+
+              <div>
+                <label class="block font-medium req">4 Métricas de sucesso (KPIs)</label>
+                <textarea id="kpis" rows="4" class="mt-1 w-full rounded-lg border-slate-300" placeholder="Liste os KPIs separados por vírgula..." required></textarea>
+              </div>
+
+              <div class="flex flex-wrap gap-2 pt-2">
+                <button type="button" id="btn-save" class="rounded-lg bg-indigo-600 text-white px-3 py-2 hover:bg-indigo-700">Salvar no Navegador</button>
+                <button type="button" id="btn-export-md" class="rounded-lg bg-emerald-600 text-white px-3 py-2 hover:bg-emerald-700">Exportar Markdown</button>
+                <button type="button" id="btn-export-json" class="rounded-lg bg-teal-600 text-white px-3 py-2 hover:bg-teal-700">Exportar JSON</button>
+              </div>
+            </form>
+          </section>
+        </article>
+      </div>
+    </div>
+  </main>
+
+  <footer class="text-center text-sm text-slate-500 py-6">
+    © GSD Academy — atividade “One-Pager do Business Case”.
+  </footer>
+
+  <script>
+    document.getElementById('btn-save').addEventListener('click', () => {
+      const objetivo = document.getElementById('objetivo').value;
+      const sponsor = document.getElementById('sponsor').value;
+      const beneficios = document.getElementById('beneficios').value;
+      const riscos = document.getElementById('riscos').value;
+      const kpis = document.getElementById('kpis').value;
+
+      if (!objetivo || !sponsor || !beneficios || !riscos || !kpis) {
+        alert('Por favor, preencha todos os campos obrigatórios.');
+        return;
+      }
+
+      const data = { objetivo, sponsor, beneficios, riscos, kpis };
+      localStorage.setItem('onePagerData', JSON.stringify(data));
+      alert('Dados salvos no navegador!');
+    });
+
+    document.getElementById('btn-export-md').addEventListener('click', () => {
+      const objetivo = document.getElementById('objetivo').value;
+      const sponsor = document.getElementById('sponsor').value;
+      const beneficios = document.getElementById('beneficios').value;
+      const riscos = document.getElementById('riscos').value;
+      const kpis = document.getElementById('kpis').value;
+
+      const markdown = `
+## One-Pager do Business Case
+
+**Objetivo:**  
+${objetivo}
+
+**Sponsor Executivo:**  
+${sponsor}
+
+**Benefícios Principais:**  
+- ${beneficios.split(',').join('\n- ')}
+
+**Riscos a Mitigar:**  
+- ${riscos.split(',').join('\n- ')}
+
+**KPIs:**  
+- ${kpis.split(',').join('\n- ')}
+      `;
+
+      const blob = new Blob([markdown], { type: 'text/markdown' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'onepager.md';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    document.getElementById('btn-export-json').addEventListener('click', () => {
+      const objetivo = document.getElementById('objetivo').value;
+      const sponsor = document.getElementById('sponsor').value;
+      const beneficios = document.getElementById('beneficios').value;
+      const riscos = document.getElementById('riscos').value;
+      const kpis = document.getElementById('kpis').value;
+
+      const data = { objetivo, sponsor, beneficios, riscos, kpis };
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'onepager.json';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
   </script>
 </body>
 </html>

@@ -51,7 +51,7 @@
   - 2 riscos a mitigar
   - 1 métrica de sucesso (KPI)
 
-[Ir para a Atividade 1: One-pager do Business Case](./atividade-onepager-interativo.html)
+[Ir para a Atividade 1: One-pager do Business Case](./atividade-onepager.html)
 
 ## Modelo de One-Pager — Business Case para Governança de Dados (Exemplo INOVADATA)
 

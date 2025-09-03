@@ -41,7 +41,7 @@ plugins:
 nav:
   - Início: index.md
   - Módulos:
-      - Fundamentos: fundamentos.md
+      - Módulo 1 — Fundamentos: modulo-01.md
       - Business Case: business_case.md
       - Engagement & Deployment: engagement.md
   - Quizzes: quizzes.md

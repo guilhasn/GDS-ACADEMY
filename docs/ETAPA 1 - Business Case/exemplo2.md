@@ -25,7 +25,7 @@
       <!-- FORMULÁRIO (2/3) -->
       <section class="card p-5 lg:col-span-2">
         <div class="flex items-center justify-between gap-4 mb-2">
-          <h1 class="text-xl font-semibold">One-Pager — Business Case</h1>
+          <h1 class="text-xl font-semibold">One-Pager — Business Case (Banco)</h1>
 
         </div>
        
@@ -117,7 +117,7 @@
 
   <script>
     // ===== Util =====
-    const $ = (s) => document.querySelector(s);
+    const $$ = (s) => document.querySelector(s);
     const createInput = (ph) => {
       const i = document.createElement('input');
       i.type='text'; i.placeholder=ph;
@@ -126,7 +126,7 @@
       return i;
     };
     const createList = (id, phs=[]) => {
-      const wrap = $('#'+id); wrap.innerHTML='';
+      const wrap = $$('#'+id); wrap.innerHTML='';
       phs.forEach(ph => wrap.appendChild(createInput(ph)));
       while (wrap.children.length < 4) wrap.appendChild(createInput(id+' '+(wrap.children.length+1)));
     };
@@ -166,20 +166,20 @@
 
     function readForm(){
       return {
-        org: $('#org').value.trim(),
-        sponsor: $('#sponsor').value.trim(),
-        objetivo: $('#objetivo').value.trim(),
-        resumo: $('#resumo').value.trim(),
+        org: $$('#org').value.trim(),
+        sponsor: $$('#sponsor').value.trim(),
+        objetivo: $$('#objetivo').value.trim(),
+        resumo: $$('#resumo').value.trim(),
         beneficios: getList('beneficios'),
         riscos: getList('riscos'),
         kpis: getList('kpis')
       }
     }
     function writeForm(d){
-      $('#org').value = d.org || '';
-      $('#sponsor').value = d.sponsor || '';
-      $('#objetivo').value = d.objetivo || '';
-      $('#resumo').value = d.resumo || '';
+      $$('#org').value = d.org || '';
+      $$('#sponsor').value = d.sponsor || '';
+      $$('#objetivo').value = d.objetivo || '';
+      $$('#resumo').value = d.resumo || '';
       setList('beneficios', d.beneficios || []);
       setList('riscos', d.riscos || []);
       setList('kpis', d.kpis || []);
@@ -227,16 +227,16 @@ ${list(d.kpis)}
     function render(){
       const d = readForm();
       const md = toMarkdown(d);
-      $('#md').value = md;
-      $('#render').innerHTML = markdownToHtml(md);
+      $$('#md').value = md;
+      $$('#render').innerHTML = markdownToHtml(md);
     }
 
     // Eventos
-    ['org','sponsor','objetivo','resumo'].forEach(id => $('#'+id).addEventListener('input', render));
-    ['beneficios','riscos','kpis'].forEach(id => $('#'+id).addEventListener('input', render));
+    ['org','sponsor','objetivo','resumo'].forEach(id => $$('#'+id).addEventListener('input', render));
+    ['beneficios','riscos','kpis'].forEach(id => $$('#'+id).addEventListener('input', render));
 
     // Ações
-    $('#btn-inovadata').addEventListener('click', ()=>{
+    $$('#btn-inovadata').addEventListener('click', ()=>{
       writeForm({
         org: 'INOVADATA Bank',
         sponsor: 'CRO + CDO Executivo',
@@ -263,33 +263,33 @@ ${list(d.kpis)}
       });
     });
 
-    $('#btn-limpar').addEventListener('click', ()=>{
+    $$('#btn-limpar').addEventListener('click', ()=>{
       writeForm({org:'', sponsor:'', objetivo:'', resumo:'', beneficios:['','','',''], riscos:['','','',''], kpis:['','','','']});
       localStorage.removeItem(KEY);
     });
 
-    $('#btn-guardar').addEventListener('click', ()=>{
+    $$('#btn-guardar').addEventListener('click', ()=>{
       localStorage.setItem(KEY, JSON.stringify(readForm()));
       alert('Guardado no navegador.');
     });
 
-    $('#btn-md').addEventListener('click', ()=>{
-      dl('onepager-business-case.md', $('#md').value, 'text/markdown;charset=utf-8');
+    $$('#btn-md').addEventListener('click', ()=>{
+      dl('onepager-business-case.md', $$('#md').value, 'text/markdown;charset=utf-8');
     });
 
-    $('#btn-json').addEventListener('click', ()=>{
+    $$('#btn-json').addEventListener('click', ()=>{
       dl('onepager-business-case.json', JSON.stringify(readForm(), null, 2), 'application/json;charset=utf-8');
     });
 
-    $('#btn-copiar').addEventListener('click', async ()=>{
-      await navigator.clipboard.writeText($('#md').value);
+    $$('#btn-copiar').addEventListener('click', async ()=>{
+      await navigator.clipboard.writeText($$('#md').value);
       alert('Markdown copiado.');
     });
 
-    $('#btn-print').addEventListener('click', ()=> window.print());
+    $$('#btn-print').addEventListener('click', ()=> window.print());
 
-    $('#btn-doc').addEventListener('click', () => {
-      const content = $('#md').value;
+    $$('#btn-doc').addEventListener('click', () => {
+      const content = $$('#md').value;
       const htmlContent = `
         <html xmlns:o="urn:schemas-microsoft-com:office" xmlns:w="urn:schemas-microsoft-com:word" xmlns="http://www.w3.org/TR/REC-html40">
         <head><meta charset="utf-8"></head>

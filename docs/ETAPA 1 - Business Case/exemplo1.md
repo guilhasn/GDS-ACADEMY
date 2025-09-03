@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Atividade — One-Pager do Business Case (Banco)</title>
+  <title>Exemplo — One-Pager do Business Case (Autarquia Local)</title>
 
   <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -36,25 +36,34 @@
       
       <!-- FORMULÁRIO (2/3) -->
       <section class="card p-5 lg:col-span-2">
-        <h2 class="text-lg font-semibold mb-3">Preenchimento</h2>
-        <p class="hint mb-4">
-          Objetivo: gerar um <em>one-pager</em> que legitime o Programa de Governança de Dados num banco (à luz de Ladley). 
-          Use <span class="kbd">Exportar</span> para obter Markdown/JSON ou <span class="kbd">Imprimir/PDF</span>.
-        </p>
+        <div class="flex items-center justify-between gap-4 mb-2">
+          <h1 class="text-xl font-semibold">One-Pager — Business Case (Autarquia Local)</h1>
+        </div>
+
+        <!-- CONTROLOS GERAIS -->
+        <div class="grid md:grid-cols-4 gap-3 mb-4">
+          <div class="md:col-span-2">
+            <label class="block font-bold">Organização</label>
+            <input id="org" class="mt-1 w-full rounded-lg border-slate-300" placeholder="Ex.: Câmara Municipal de Lisboa" />
+          </div>
+          <div>
+            <label class="block font-bold">Sponsor (Presidência)</label>
+            <input id="sponsor" class="mt-1 w-full rounded-lg border-slate-300" placeholder="Ex.: Presidente da Câmara + Vereador responsável + DPO" />
+          </div>
+          <div class="flex items-end gap-2">
+            <button id="btn-autarquia" class="rounded-lg bg-slate-200 hover:bg-slate-300 px-3 py-2 w-full">
+              Carregar exemplo AUTARQUIA LOCAL
+            </button>
+            <button id="btn-limpar" class="rounded-lg bg-white border px-3 py-2 w-full">Limpar</button>
+          </div>
+        </div>
 
         <form id="form" class="space-y-6">
-          <!-- Objetivo + Sponsor em grelha 2 colunas -->
-          <div class="grid md:grid-cols-2 gap-4">
-            <div>
-              <label class="block font-medium req">Objetivo do programa</label>
-              <textarea id="objetivo" rows="4" class="mt-1 w-full rounded-lg border-slate-300" placeholder="Ex.: Estabelecer capacidades de governança (papéis, políticas e métricas) para reduzir riscos e aumentar o valor dos dados em 12 meses."></textarea>
-              <p class="hint mt-1">Alinhar com a estratégia do banco e metas mensuráveis.</p>
-            </div>
-            <div>
-              <label class="block font-medium req">Sponsor executivo</label>
-              <input id="sponsor" type="text" class="mt-1 w-full rounded-lg border-slate-300" placeholder="Ex.: CFO, COO, CRO, CDO Executivo"/>
-              <p class="hint mt-1">C-level com mandato e influência transversal.</p>
-            </div>
+          <!-- Objetivo -->
+          <div>
+            <label class="block font-medium req">Objetivo do programa</label>
+            <textarea id="objetivo" rows="4" class="mt-1 w-full rounded-lg border-slate-300" placeholder="Ex.: Implementar governança de dados municipal para melhorar eficiência administrativa, garantir compliance RGPD e otimizar serviços públicos em 12 meses."></textarea>
+            <p class="hint mt-1">Alinhar com a estratégia da autarquia e metas mensuráveis.</p>
           </div>
 
           <!-- Benefícios / Riscos / KPIs em cartões -->
@@ -62,13 +71,13 @@
             <div class="p-4 rounded-lg border">
               <label class="block font-medium req mb-2">4 Benefícios principais</label>
               <div id="beneficios" class="space-y-2"></div>
-              <p class="hint mt-2">Ex.: menos retrabalho; melhor qualidade; time-to-insight; conformidade.</p>
+              <p class="hint mt-2">Ex.: eficiência administrativa; conformidade RGPD; qualidade dados; otimização recursos.</p>
             </div>
 
             <div class="p-4 rounded-lg border">
               <label class="block font-medium req mb-2">4 Riscos a mitigar</label>
               <div id="riscos" class="space-y-2"></div>
-              <p class="hint mt-2">Ex.: RGPD/BCBS; acessos excessivos; DQM; linhagem.</p>
+              <p class="hint mt-2">Ex.: exposição dados pessoais; ineficiências administrativas; interoperabilidade; compliance.</p>
             </div>
 
             <div class="p-4 rounded-lg border">
@@ -78,12 +87,6 @@
             </div>
           </div>
 
-          <!-- Ações -->
-          <div class="flex flex-wrap gap-2 pt-1">
-            <button type="button" id="btn-exemplo" class="rounded-lg bg-slate-200 hover:bg-slate-300 px-3 py-2">Preencher exemplo</button>
-             
-          </div>
-          <p class="hint">Guardado no <strong>localStorage</strong>. Nada é enviado para servidor.</p>
         </form>
 
         <hr class="my-6"/>
@@ -123,7 +126,7 @@
 
   <script>
     // ---------- util ----------
-    const $ = (sel) => document.querySelector(sel);
+    const $$ = (sel) => document.querySelector(sel);  // Renamed to avoid conflict with MkDocs
     const createInput = (name, placeholder) => {
       const input = document.createElement('input');
       input.type = 'text';
@@ -175,19 +178,21 @@
     ]);
 
     // ---------- estado ----------
-    const KEY = 'gsd_onepager_banco_v1';
+    const KEY = 'gsd_onepager_autarquia_v1';
     function readForm(){
       return {
-        objetivo: $('#objetivo').value.trim(),
-        sponsor:  $('#sponsor').value.trim(),
+        org: $$('#org').value.trim(),
+        objetivo: $$('#objetivo').value.trim(),
+        sponsor:  $$('#sponsor').value.trim(),
         beneficios: getValues('beneficios'),
         riscos:     getValues('riscos'),
         kpis:       getValues('kpis')
       }
     }
     function writeForm(d){
-      $('#objetivo').value = d.objetivo || '';
-      $('#sponsor').value = d.sponsor || '';
+      $$('#org').value = d.org || '';
+      $$('#objetivo').value = d.objetivo || '';
+      $$('#sponsor').value = d.sponsor || '';
       setValues('beneficios', d.beneficios || []);
       setValues('riscos', d.riscos || []);
       setValues('kpis', d.kpis || []);
@@ -197,7 +202,7 @@
     // ---------- render Markdown + preview ----------
     function toMarkdown(d){
       const list = (arr, prefix='- ') => (arr||[]).map(v => `${prefix}${v}`).join('\n');
-      return `# One-Pager — Business Case (Banco)
+      return `# One-Pager — Business Case (${d.org || 'Autarquia Local'})
 
 **Objetivo do Programa**  
 ${d.objetivo || ''}
@@ -234,64 +239,45 @@ ${list(d.kpis)}
     function render(){
       const d = readForm();
       const md = toMarkdown(d);
-      $('#md').value = md;
-      $('#render').innerHTML = markdownToHtml(md);
+      $$('#md').value = md;
+      $$('#render').innerHTML = markdownToHtml(md);
     }
-    ['objetivo','sponsor'].forEach(id => $('#'+id).addEventListener('input', render));
+    ['org','objetivo','sponsor'].forEach(id => $$('#'+id).addEventListener('input', render));
     ['beneficios','riscos','kpis'].forEach(id => {
       document.querySelector('#'+id).addEventListener('input', render);
     });
 
     // ---------- ações ----------
-    $('#btn-exemplo').addEventListener('click', ()=>{
+    $$('#btn-autarquia').addEventListener('click', ()=>{
       writeForm({
-        objetivo: 'Estabelecer governança de dados corporativa para aumentar a qualidade e confiança dos dados críticos, reduzir risco regulatório e acelerar decisões.',
-        sponsor: 'CRO + CDO Executivo',
+        org: 'Câmara Municipal de Lisboa',
+        objetivo: 'Implementar governança de dados municipal para melhorar eficiência administrativa, garantir compliance RGPD e otimizar serviços públicos em 12 meses.',
+        sponsor: 'Presidente da Câmara + Vereador responsável + DPO',
         beneficios: [
-          'Redução de 25% no retrabalho analítico em 12 meses',
-          'Conformidade reforçada (RGPD/BCBS) e evidência de controlos',
-          'Qualidade em dados de cliente (+20% nas regras críticas)',
-          'Time-to-insight reduzido em 30% em relatórios de gestão'
+          'Eficiência administrativa aumentada em 25% (processos digitais)',
+          'Conformidade RGPD reforçada e redução de riscos legais',
+          'Melhoria na qualidade de dados cidadãos/empresas',
+          'Otimização de recursos públicos e redução de custos operacionais'
         ],
         riscos: [
-          'Multas por incumprimento RGPD/BCBS e danos reputacionais',
-          'Acessos excessivos a dados sensíveis e ausência de logs',
-          'Dados mestres inconsistentes entre sistemas core',
-          'Falta de linhagem impacta auditorias e confiança'
+          'Exposição de dados pessoais de cidadãos e empresas',
+          'Ineficiências em processos administrativos manuais',
+          'Falta de interoperabilidade entre sistemas municipais',
+          'Riscos de compliance e multas por incumprimento RGPD'
         ],
         kpis: [
-          '% domínios com steward nomeado (meta: ≥80% em 6m)',
-          'Nº incidentes de qualidade/mês (meta: -40% em 9m)',
-          'Tempo de ciclo de pedidos de dados (meta: -30%)',
-          '% registos classificados e com retenção definida (meta: ≥90%)'
+          '% processos digitalizados (meta: ≥80% em 6m)',
+          'Incidentes de dados/mês (meta: −40% em 9m)',
+          'Tempo médio de resposta a pedidos (meta: −30% em 12m)',
+          '% datasets classificados e protegidos (meta: ≥95%)'
         ]
       });
     });
 
-    $('#btn-limpar').addEventListener('click', ()=>{
-      writeForm({objetivo:'', sponsor:'', beneficios:['','','',''], riscos:['','','',''], kpis:['','','','']});
+    $$('#btn-limpar').addEventListener('click', ()=>{
+      writeForm({org:'', objetivo:'', sponsor:'', beneficios:['','','',''], riscos:['','','',''], kpis:['','','','']});
       localStorage.removeItem(KEY);
     });
-
-    $('#btn-guardar').addEventListener('click', ()=>{
-      localStorage.setItem(KEY, JSON.stringify(readForm()));
-      alert('Guardado no navegador (localStorage).');
-    });
-
-    $('#btn-md').addEventListener('click', ()=>{
-      dl('onepager-business-case.md', $('#md').value, 'text/markdown;charset=utf-8');
-    });
-
-    $('#btn-json').addEventListener('click', ()=>{
-      dl('onepager-business-case.json', JSON.stringify(readForm(), null, 2), 'application/json;charset=utf-8');
-    });
-
-    $('#btn-copiar').addEventListener('click', async ()=>{
-      await navigator.clipboard.writeText($('#md').value);
-      alert('Markdown copiado para a área de transferência.');
-    });
-
-    $('#btn-print').addEventListener('click', ()=>{ window.print(); });
 
     // ---------- load ----------
     const saved = localStorage.getItem(KEY);

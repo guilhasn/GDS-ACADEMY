@@ -116,7 +116,8 @@
   </footer>
 
   <script>
-    const $ = s => document.querySelector(s);
+        // ===== Util =====
+    const $$ = (s) => document.querySelector(s);
 
     // Helpers listas
     const createInput = (ph) => {
@@ -128,7 +129,7 @@
       return i;
     };
     const createList = (id, phs=[]) => {
-      const wrap = $('#'+id); wrap.innerHTML='';
+      const wrap = $$('#'+id); wrap.innerHTML='';
       phs.forEach(ph => wrap.appendChild(createInput(ph)));
       while (wrap.children.length < 4) wrap.appendChild(createInput(id+' '+(wrap.children.length+1)));
     };
@@ -145,20 +146,20 @@
 
     function readForm(){
       return {
-        org: $('#org').value.trim(),
-        sponsor: $('#sponsor').value.trim(),
-        objetivo: $('#objetivo').value.trim(),
-        resumo: $('#resumo').value.trim(),
+        org: $$('#org').value.trim(),
+        sponsor: $$('#sponsor').value.trim(),
+        objetivo: $$('#objetivo').value.trim(),
+        resumo: $$('#resumo').value.trim(),
         beneficios: getList('beneficios'),
         riscos: getList('riscos'),
         kpis: getList('kpis')
       };
     }
     function writeForm(d){
-      $('#org').value = d.org || '';
-      $('#sponsor').value = d.sponsor || '';
-      $('#objetivo').value = d.objetivo || '';
-      $('#resumo').value = d.resumo || '';
+      $$('#org').value = d.org || '';
+      $$('#sponsor').value = d.sponsor || '';
+      $$('#objetivo').value = d.objetivo || '';
+      $$('#resumo').value = d.resumo || '';
       setList('beneficios', d.beneficios || []);
       setList('riscos', d.riscos || []);
       setList('kpis', d.kpis || []);
@@ -203,16 +204,16 @@ ${list(d.kpis)}
     function render(){
       const d = readForm();
       const md = toMarkdown(d);
-      $('#md').value = md;
-      $('#render').innerHTML = markdownToHtml(md);
+      $$('#md').value = md;
+      $$('#render').innerHTML = markdownToHtml(md);
     }
 
     // Eventos
-    ['org','sponsor','objetivo','resumo'].forEach(id => $('#'+id).addEventListener('input', render));
-    ['beneficios','riscos','kpis'].forEach(id => $('#'+id).addEventListener('input', render));
+    ['org','sponsor','objetivo','resumo'].forEach(id => $$('#'+id).addEventListener('input', render));
+    ['beneficios','riscos','kpis'].forEach(id => $$('#'+id).addEventListener('input', render));
 
     // Carregar exemplo (Cadeia de Supermercados) apenas ao clicar
-    $('#btn-supermercados').addEventListener('click', ()=>{
+    $$('#btn-supermercados').addEventListener('click', ()=>{
       writeForm({
         org: 'Cadeia de Supermercados ABC',
         sponsor: 'CEO + CIO + CDO',
@@ -239,7 +240,7 @@ ${list(d.kpis)}
       });
     });
 
-    $('#btn-limpar').addEventListener('click', ()=>{
+    $$('#btn-limpar').addEventListener('click', ()=>{
       writeForm({org:'', sponsor:'', objetivo:'', resumo:'', beneficios:['','','',''], riscos:['','','',''], kpis:['','','','']});
     });
 

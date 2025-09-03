@@ -13,6 +13,10 @@
     .req::after{content:" *"; color:#dc2626; font-weight:700}
     textarea{resize:vertical}
     .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace}
+    .invalid {
+      border-color: #dc2626;
+      background-color: #fee2e2;
+    }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-800">
@@ -35,13 +39,13 @@
       <form id="form" class="space-y-4">
         <div>
           <label class="block font-medium req">Objetivo do programa</label>
-          <textarea id="objetivo" rows="3" class="mt-1 w-full rounded-lg border-slate-300" placeholder="Ex.: Estabelecer capacidades de governança (papéis, políticas e métricas) para reduzir riscos e aumentar o valor dos dados em 12 meses."></textarea>
+          <textarea id="objetivo" rows="3" class="mt-1 w-full rounded-lg border-slate-300" placeholder="Ex.: Estabelecer capacidades de governança (papéis, políticas e métricas) para reduzir riscos e aumentar o valor dos dados em 12 meses." aria-label="Objetivo do programa" aria-required="true"></textarea>
           <p class="hint mt-1">Alinhar com a estratégia do banco e metas mensuráveis.</p>
         </div>
 
         <div>
           <label class="block font-medium req">Sponsor executivo</label>
-          <input id="sponsor" type="text" class="mt-1 w-full rounded-lg border-slate-300" placeholder="Ex.: CFO, COO, CRO, CDO Executivo"/>
+          <input id="sponsor" type="text" class="mt-1 w-full rounded-lg border-slate-300" placeholder="Ex.: CFO, COO, CRO, CDO Executivo" aria-label="Sponsor executivo" aria-required="true"/>
           <p class="hint mt-1">Idealmente alguém com influência transversal (C-level) e mandato claro.</p>
         </div>
 
@@ -74,6 +78,7 @@
           <button type="button" id="btn-json" class="rounded-lg bg-teal-600 text-white px-3 py-2 hover:bg-teal-700">Exportar JSON</button>
           <button type="button" id="btn-copiar" class="rounded-lg bg-yellow-500 text-white px-3 py-2 hover:bg-yellow-600">Copiar Markdown</button>
           <button type="button" id="btn-print" class="rounded-lg bg-slate-800 text-white px-3 py-2">Imprimir / PDF</button>
+          <button type="button" id="btn-html" class="rounded-lg bg-blue-600 text-white px-3 py-2 hover:bg-blue-700">Exportar HTML</button>
         </div>
         <p class="hint pt-1">Dados guardados no <strong>localStorage</strong> do navegador (apenas neste dispositivo). Não há envio para servidor.</p>
       </form>
@@ -264,8 +269,10 @@ ${list(d.kpis)}
     });
 
     $('#btn-guardar').addEventListener('click', ()=>{
-      localStorage.setItem(KEY, JSON.stringify(readForm()));
-      alert('Guardado no navegador (localStorage).');
+      if (validateForm()) {
+        localStorage.setItem(KEY, JSON.stringify(readForm()));
+        alert('Guardado no navegador (localStorage).');
+      }
     });
 
     $('#btn-md').addEventListener('click', ()=>{
@@ -283,10 +290,44 @@ ${list(d.kpis)}
 
     $('#btn-print').addEventListener('click', ()=>{ window.print(); });
 
+    $('#btn-html').addEventListener('click', ()=>{
+      const html = `
+        <!DOCTYPE html>
+        <html>
+          <body>
+            ${$('#render').innerHTML}
+          </body>
+        </html>
+      `;
+      dl('onepager-business-case.html', html, 'text/html;charset=utf-8');
+    });
+
     // ---------- load state ----------
     const saved = localStorage.getItem(KEY);
     if (saved) { try { writeForm(JSON.parse(saved)); } catch(e){ render(); } }
     else { render(); }
+
+    // Adicionar ao script
+    let autoSaveTimeout;
+    function enableAutoSave() {
+      ['objetivo','sponsor'].forEach(id => {
+        $('#'+id).addEventListener('input', ()=> {
+          clearTimeout(autoSaveTimeout);
+          autoSaveTimeout = setTimeout(()=> {
+            localStorage.setItem(KEY, JSON.stringify(readForm()));
+          }, 1000);
+        });
+      });
+    }
+    enableAutoSave();
+
+    function showToast(message) {
+      const toast = document.createElement('div');
+      toast.className = 'fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded-lg';
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+    }
   </script>
 </body>
 </html>

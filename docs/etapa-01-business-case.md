@@ -13,6 +13,53 @@
 - Dar **legitimidade organizacional** ao Programa de Governança de Dados.
 - Conseguir **sponsor executivo** e alinhar com a estratégia.
 - Estabelecer métricas de sucesso claras.
+- Sem um business case sólido, a iniciativa de governança de dados será vista apenas como mais um projeto de TI.  
+- O business case é a licença para operar, traduzindo a linguagem técnica para a linguagem do negócio.
+
+#### 🔑 Objetivos do Business Case
+
+- Legitimar o programa de governança de dados perante a gestão.
+- Mostrar valor estratégico: eficiência, conformidade, confiança e inovação.
+- Tornar claro o custo de não agir: multas, perda de reputação, decisões erradas, dívida de dados acumulada.
+- Alinhar com drivers de negócio (regulação, novos produtos, clientes, sustentabilidade).
+
+#### 📉 Se não fizer nada…
+
+- Acumulação de *data debt*: inconsistências, duplicações, silos e retrabalho.
+- Riscos regulatórios (ex.: RGPD, Basileia, AML, CNPD).
+- Perda de oportunidades de negócio por falta de confiança nos dados.
+- Cultura interna continua vendo dados como “um problema de TI”.
+
+#### 📈 Se fizer bem…
+
+- Redução de custos operacionais (menos erros, menos retrabalho).
+- Garantia de compliance com normas (ex.: RGPD, ISO 27001).
+- Aumento da velocidade de decisão (*time-to-insight* mais curto).
+- Criação de confiança nos clientes e reguladores.
+- Dados passam a ser um ativo estratégico — não apenas um subproduto de sistemas.
+
+#### 🚧 Obstáculos a enfrentar
+
+- Resistência cultural: “já sempre fizemos assim”.
+- Falta de consciência: “isto não é prioridade”.
+- Orçamento e foco em projetos visíveis (vendas, marketing, operações).
+- Falta de métricas claras que mostrem o valor dos dados.
+
+#### 🛠️ Como construir
+
+1. Entender a direção estratégica do negócio.
+2. Identificar oportunidades e casos de uso de dados.
+3. Definir benefícios mensuráveis (KPI/KRI).
+4. Quantificar custos (investimento vs. custo da má qualidade).
+5. Estruturar num formato executivo: One-Pager + anexos de detalhe.
+
+#### 📌 Mensagem final
+
+> O business case não é burocracia.  
+> É um contrato de confiança com a administração.  
+> Sem ele, a governança de dados morre ao primeiro corte orçamental.  
+> Com ele, é possível provar que dados são ativos estratégicos.
+
 
 ### 2. Componentes de um Business Case
 - **Visão**: onde a Governança de Dados vai atuar.

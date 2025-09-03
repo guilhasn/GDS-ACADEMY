@@ -1,4 +1,4 @@
-# Atividade 1
+# Exemplo 1
 
 <!doctype html>
 <html lang="pt">
@@ -81,12 +81,7 @@
           <!-- Ações -->
           <div class="flex flex-wrap gap-2 pt-1">
             <button type="button" id="btn-exemplo" class="rounded-lg bg-slate-200 hover:bg-slate-300 px-3 py-2">Preencher exemplo</button>
-            <button type="button" id="btn-limpar" class="rounded-lg bg-white border px-3 py-2">Limpar</button>
-            <button type="button" id="btn-guardar" class="rounded-lg bg-indigo-600 text-white px-3 py-2 hover:bg-indigo-700">Guardar (browser)</button>
-            <button type="button" id="btn-md" class="rounded-lg bg-emerald-600 text-white px-3 py-2 hover:bg-emerald-700">Exportar Markdown</button>
-            <button type="button" id="btn-json" class="rounded-lg bg-teal-600 text-white px-3 py-2 hover:bg-teal-700">Exportar JSON</button>
-            <button type="button" id="btn-copiar" class="rounded-lg bg-yellow-500 text-white px-3 py-2 hover:bg-yellow-600">Copiar Markdown</button>
-            <button type="button" id="btn-print" class="rounded-lg bg-slate-800 text-white px-3 py-2">Imprimir / PDF</button>
+             
           </div>
           <p class="hint">Guardado no <strong>localStorage</strong>. Nada é enviado para servidor.</p>
         </form>

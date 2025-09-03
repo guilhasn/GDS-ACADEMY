@@ -37,8 +37,10 @@ nav:
   - Início: index.md
   - ETAPA 1 — Business Case:
       - Introdução: etapa-01-business-case.md
-      - Atividade 1: ETAPA 1 - Business Case/atividade1.md
-      - Atividade 2: ETAPA 1 - Business Case/atividade2.md
+      - Exemplo 1: ETAPA 1 - Business Case/exemplo1.md
+      - Exemplo 2: ETAPA 1 - Business Case/exemplo2.md
+      - Exemplo 3: ETAPA 1 - Business Case/exemplo3.md
+      - Exemplo 4: ETAPA 1 - Business Case/exemplo4.md
   - Quizzes: quizzes.md
   - Recursos: recursos.md
   - Privacidade: privacidade.md

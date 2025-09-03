@@ -268,43 +268,6 @@ ${list(d.kpis)}
       localStorage.removeItem(KEY);
     });
 
-    $$('#btn-guardar').addEventListener('click', ()=>{
-      localStorage.setItem(KEY, JSON.stringify(readForm()));
-      alert('Guardado no navegador.');
-    });
-
-    $$('#btn-md').addEventListener('click', ()=>{
-      dl('onepager-business-case.md', $$('#md').value, 'text/markdown;charset=utf-8');
-    });
-
-    $$('#btn-json').addEventListener('click', ()=>{
-      dl('onepager-business-case.json', JSON.stringify(readForm(), null, 2), 'application/json;charset=utf-8');
-    });
-
-    $$('#btn-copiar').addEventListener('click', async ()=>{
-      await navigator.clipboard.writeText($$('#md').value);
-      alert('Markdown copiado.');
-    });
-
-    $$('#btn-print').addEventListener('click', ()=> window.print());
-
-    $$('#btn-doc').addEventListener('click', () => {
-      const content = $$('#md').value;
-      const htmlContent = `
-        <html xmlns:o="urn:schemas-microsoft-com:office" xmlns:w="urn:schemas-microsoft-com:word" xmlns="http://www.w3.org/TR/REC-html40">
-        <head><meta charset="utf-8"></head>
-        <body>${content.replace(/\n/g, '<br>')}</body>
-        </html>
-      `;
-      const blob = new Blob([htmlContent], { type: 'application/msword' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'onepager-business-case.doc';
-      a.click();
-      URL.revokeObjectURL(url);
-    });
-
     // Estado inicial — não carregar exemplo automaticamente
     const saved = localStorage.getItem(KEY);
     if (saved) {

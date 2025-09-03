@@ -41,9 +41,6 @@ plugins:
 nav:
   - Início: index.md
   - ETAPA 1 — Business Case: etapa-01-business-case.md
-  - Módulos:
-      - Módulo 1 — Fundamentos: modulo-01.md
-      - Engagement & Deployment: engagement.md
   - Quizzes: quizzes.md
   - Recursos: recursos.md
   - Privacidade: privacidade.md

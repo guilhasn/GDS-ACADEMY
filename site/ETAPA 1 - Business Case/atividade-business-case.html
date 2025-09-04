@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atividade — Business Case Interativo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .card { background: #fff; border: 1px solid #e5e7eb; border-radius: 1rem; box-shadow: 0 4px 18px rgba(2,6,23,.06); }
+        .hint { font-size: .9rem; color: #475569; }
+        .req::after { content: " *"; color: #dc2626; font-weight: 700; }
+        .mono { font-family: ui-monospace, Menlo, Consolas, monospace; }
+    </style>
+</head>
+<body class="bg-gray-50 p-6">
+    <div class="max-w-7xl mx-auto">
+        <!-- Navegação -->
+        <nav class="mb-6">
+            <a href="../etapa-01-business-case/" class="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Voltar ao Índice da ETAPA 1 — Business Case
+            </a>
+        </nav>
+
+        <h1 class="text-3xl font-bold text-gray-900 mb-6">Atividade Interativa: Construção de Business Case</h1>
+        <p class="text-gray-600 mb-8">Baseado no Capítulo 5 de John Ladley. Preencha os casos de uso abaixo e veja a tabela do Business Case ser gerada em tempo real.</p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Coluna Esquerda: Formulário -->
+            <div class="space-y-6">
+                <div class="card p-6">
+                    <h2 class="text-xl font-semibold mb-4">Adicionar Caso de Uso</h2>
+                    <form id="ucForm" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium req">Nome do Caso de Uso</label>
+                            <input type="text" id="ucNome" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
+                            <p class="hint">Ex.: "Implementação de Sistema de Qualidade de Dados"</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium req">Descrição Resumida</label>
+                            <textarea id="ucDescricao" rows="3" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required></textarea>
+                            <p class="hint">Descreva brevemente o que o caso de uso envolve.</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium req">Benefícios Tangíveis (valores documentados)</label>
+                            <textarea id="ucTangiveis" rows="3" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required></textarea>
+                            <p class="hint">Descreva como se mede e o valor. Ex.: "Redução de custos operacionais em €50.000/ano; Aumento de eficiência em +25%"</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium req">Benefícios Intangíveis (impacto difícil de quantificar)</label>
+                            <textarea id="ucIntangiveis" rows="3" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required></textarea>
+                            <p class="hint">Ex.: "Melhoria da confiança regulatória; Aumento da reputação organizacional; Cultura de inovação"</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium">Custos Evitados / Ganhos Estimados</label>
+                            <textarea id="ucCustos" rows="2" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
+                            <p class="hint">Ex.: "Economia em multas regulatórias estimada em €20.000"</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium">Observações Adicionais</label>
+                            <textarea id="ucObservacoes" rows="2" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
+                            <p class="hint">Quaisquer notas ou considerações adicionais.</p>
+                        </div>
+                        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Adicionar Caso de Uso</button>
+                    </form>
+                </div>
+
+                <div class="card p-6">
+                    <h3 class="text-lg font-semibold mb-4">Casos de Uso Adicionados</h3>
+                    <div id="listaUC" class="space-y-3">
+                        <p class="text-gray-500 text-sm">Nenhum caso de uso adicionado ainda. Use o formulário acima para começar.</p>
+                    </div>
+                </div>
+
+                <div class="card p-6">
+                    <h3 class="text-lg font-semibold mb-4">Ações</h3>
+                    <div class="space-y-2">
+                        <button id="btnExemplo" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 w-full transition-colors">🎲 Gerar Exemplo</button>
+                        <button id="btnExemplosDetalhados" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 w-full transition-colors">📋 Exemplos Detalhados</button>
+                        <button id="btnLimpar" class="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700 w-full transition-colors">🗑️ Limpar Tudo</button>
+                        <button id="btnExportMD" class="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 w-full transition-colors">📝 Exportar Markdown</button>
+                        <button id="btnExportCSV" class="bg-orange-600 text-white px-4 py-2 rounded-md hover:bg-orange-700 w-full transition-colors">📊 Exportar CSV</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Coluna Direita: Pré-visualização -->
+            <div class="space-y-6">
+                <div class="card p-6">
+                    <h2 class="text-xl font-semibold mb-4">Pré-visualização do Business Case</h2>
+                    <div id="preview" class="space-y-4">
+                        <div id="tabelaTangiveis" class="overflow-x-auto"></div>
+                        <div id="tabelaIntangiveis" class="overflow-x-auto"></div>
+                    </div>
+                </div>
+
+                <div class="card p-6">
+                    <h3 class="text-lg font-semibold mb-4">Feedback Automático</h3>
+                    <div id="feedback" class="text-sm">
+                        <p>Adicione casos de uso para ver o feedback.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let casosUso = [];
+        let exemploIndex = 0;
+        let exemploDetalhadoIndex = 0;
+
+        const exemplos = [
+            {
+                titulo: "Exemplo 1: Banco",
+                casos: [
+                    {
+                        nome: "Implementação de Sistema de Qualidade de Dados",
+                        descricao: "Sistema automatizado para validação e limpeza de dados de clientes.",
+                        tangiveis: "Redução de multas regulatórias em €150.000/ano; Melhoria da margem operacional em 2%.",
+                        intangiveis: "Aumento da confiança regulatória; Melhoria da cultura de conformidade.",
+                        custos: "Economia estimada em €50.000 em auditorias manuais.",
+                        observacoes: "KPIs: Taxa de erro de dados reduzida para <0.1%."
+                    },
+                    {
+                        nome: "Dashboard de Monitorização de Riscos",
+                        descricao: "Painel em tempo real para monitorização de riscos de dados.",
+                        tangiveis: "Redução de perdas por fraudes em €200.000/ano.",
+                        intangiveis: "Melhoria da reputação junto aos clientes; Aumento da confiança interna.",
+                        custos: "Ganhos estimados em €30.000 por ano em eficiência operacional.",
+                        observacoes: "KPIs: Tempo de resposta a incidentes reduzido em 50%."
+                    }
+                ]
+            },
+            {
+                titulo: "Exemplo 2: Universidade",
+                casos: [
+                    {
+                        nome: "Sistema Integrado de Gestão Académica",
+                        descricao: "Plataforma unificada para gestão de matrículas e dados académicos.",
+                        tangiveis: "Redução de abandono escolar em 15%; Eficiência em processos administrativos em 30%.",
+                        intangiveis: "Melhoria da reputação académica; Aumento da satisfação dos estudantes.",
+                        custos: "Economia em €100.000/ano em processos manuais.",
+                        observacoes: "KPIs: Tempo médio de resposta a estudantes reduzido para 2 horas."
+                    },
+                    {
+                        nome: "Análise Preditiva de Desempenho",
+                        descricao: "Modelo de machine learning para prever dificuldades académicas.",
+                        tangiveis: "Aumento da taxa de conclusão em 10%.",
+                        intangiveis: "Melhoria da experiência educativa; Fortalecimento da marca institucional.",
+                        custos: "Ganhos estimados em €75.000 por ano em retenção de estudantes.",
+                        observacoes: "KPIs: Precisão do modelo em 85%."
+                    }
+                ]
+            },
+            {
+                titulo: "Exemplo 3: Hospital",
+                casos: [
+                    {
+                        nome: "Sistema de Registos Eletrónicos de Saúde",
+                        descricao: "Digitalização completa dos registos médicos e históricos clínicos.",
+                        tangiveis: "Melhoria de outcomes clínicos em 20%; Redução de erros médicos em 25%.",
+                        intangiveis: "Aumento da confiança dos pacientes; Melhoria da reputação em rankings.",
+                        custos: "Poupança em tempo de internamento estimada em €500.000/ano.",
+                        observacoes: "KPIs: Taxa de readmissões reduzida em 15%."
+                    },
+                    {
+                        nome: "Análise de Dados para Prevenção",
+                        descricao: "Sistema de análise preditiva para identificar riscos de saúde.",
+                        tangiveis: "Redução de custos com tratamentos de emergência em €300.000/ano.",
+                        intangiveis: "Melhoria da qualidade de cuidados; Aumento da satisfação dos pacientes.",
+                        custos: "Economia estimada em €150.000 em procedimentos desnecessários.",
+                        observacoes: "KPIs: Tempo médio de diagnóstico reduzido em 40%."
+                    }
+                ]
+            },
+            {
+                titulo: "Exemplo 4: Município",
+                casos: [
+                    {
+                        nome: "Portal Digital de Serviços Municipais",
+                        descricao: "Plataforma online para acesso a serviços públicos e dados.",
+                        tangiveis: "Redução de custos de operações manuais em €200.000/ano.",
+                        intangiveis: "Aumento da transparência com cidadãos; Melhoria da eficiência em serviços digitais.",
+                        custos: "Ganhos estimados em €100.000 por ano em produtividade.",
+                        observacoes: "KPIs: Tempo médio de atendimento reduzido para 5 minutos."
+                    },
+                    {
+                        nome: "Sistema de Gestão de Dados Urbanos",
+                        descricao: "Centralização e análise de dados urbanos para planeamento.",
+                        tangiveis: "Otimização de recursos públicos em 15%.",
+                        intangiveis: "Melhoria da qualidade de vida urbana; Fortalecimento da confiança pública.",
+                        custos: "Economia estimada em €75.000 em duplicação de esforços.",
+                        observacoes: "KPIs: Eficiência em projetos urbanos aumentada em 25%."
+                    }
+                ]
+            }
+        ];
+
+        const exemplosDetalhados = [
+            {
+                titulo: "Autarquia — Transformação Digital Municipal",
+                casos: [
+                    {
+                        nome: "Reduzir custos operacionais",
+                        descricao: "Poupança em papel e logística através da digitalização",
+                        tangiveis: "Redução de processos em papel em €40.000/ano; Economia em arquivo físico em €15.000/ano",
+                        intangiveis: "Aumento da transparência; Inclusão digital; Reputação institucional",
+                        custos: "Economia estimada em €15.000/ano em material de escritório.",
+                        observacoes: "Portal aberto de dados municipais reforça confiança cidadã. KPIs: 70% redução no uso de papel."
+                    },
+                    {
+                        nome: "Melhorar tempo médio de resposta",
+                        descricao: "De 30 para 7 dias no licenciamento urbano",
+                        tangiveis: "Digitalização de pedidos de munícipes com +65% eficiência; Redução de tempo em 23 dias",
+                        intangiveis: "Formação gratuita em literacia digital; Melhoria da imagem social",
+                        custos: "Ganhos estimados em €25.000/ano em produtividade.",
+                        observacoes: "Melhora imagem social da autarquia. KPIs: 65% melhoria na eficiência."
+                    },
+                    {
+                        nome: "Otimizar consumo de energia",
+                        descricao: "Redução de 12% no consumo energético",
+                        tangiveis: "Implementação de sensores IoT em edifícios municipais em €90.000/ano; Redução de 12% no consumo",
+                        intangiveis: "Reconhecimento em programas nacionais de Smart Cities",
+                        custos: "Economia estimada em €30.000/ano em manutenção preventiva.",
+                        observacoes: "Posiciona o município como inovador. KPIs: 12% redução energética."
+                    }
+                ]
+            },
+            {
+                titulo: "Banco — Governança e Segurança dos Dados",
+                casos: [
+                    {
+                        nome: "Reduzir multas regulatórias",
+                        descricao: "Redução de €2M/ano em penalizações do BdP/ECB",
+                        tangiveis: "Evitar sanções do BdP/ECB em €2.000.000/ano; Economia de 80% em multas regulatórias",
+                        intangiveis: "Confiança regulatória; Auditorias sem não conformidades",
+                        custos: "Ganhos estimados em €500.000/ano em processos de auditoria.",
+                        observacoes: "Facilita expansão internacional. KPIs: 0 multas regulatórias."
+                    },
+                    {
+                        nome: "Aumentar margem operacional", 
+                        descricao: "Redução de 15% em retrabalho de relatórios anuais",
+                        tangiveis: "Redução de erros de reporte financeiro em €3.500.000/ano; -15% retrabalho em relatórios",
+                        intangiveis: "Melhor decisão estratégica; Direção de risco mais ágil",
+                        custos: "Economia estimada em €800.000/ano em correções manuais.",
+                        observacoes: "Dados mais fiáveis para análise de risco. KPIs: 99.5% precisão de dados."
+                    },
+                    {
+                        nome: "Eficiência em onboarding de clientes",
+                        descricao: "Tempo reduzido de 14 para 3 dias",
+                        tangiveis: "Automatização KYC com +30% novos clientes; Tempo reduzido em 11 dias por cliente",
+                        intangiveis: "Reputação no mercado; Atrai investidores",
+                        custos: "Ganhos estimados em €1.200.000/ano em eficiência operacional.",
+                        observacoes: "Relatórios reconhecidos pela Deloitte/KPMG. KPIs: 30% aumento captação."
+                    }
+                ]
+            },
+            {
+                titulo: "Cadeia de Supermercados — Data Governance e Analytics",
+                casos: [
+                    {
+                        nome: "Redução de Desperdício Alimentar",
+                        descricao: "Gestão preditiva de stocks para minimizar produtos expirados.",
+                        tangiveis: "Redução de 10% em produtos expirados; Poupança de €4M/ano.",
+                        intangiveis: "Melhoria da sustentabilidade com relatórios ESG transparentes; Reputação com stakeholders.",
+                        custos: "Economia estimada em €1.5M/ano em gestão de resíduos.",
+                        observacoes: "KPIs: 10% menos desperdício; Índice de sustentabilidade melhorado."
+                    },
+                    {
+                        nome: "Aumento de Vendas Cruzadas",
+                        descricao: "Análise de cestas de compras para campanhas personalizadas.",
+                        tangiveis: "Aumento de 8% no ticket médio; Receita adicional de €6.5M/ano.",
+                        intangiveis: "Experiência cliente melhorada com apps personalizadas; Fidelização a longo prazo.",
+                        custos: "Ganhos estimados em €2M/ano em campanhas mais eficazes.",
+                        observacoes: "KPIs: 8% aumento no ticket médio; Taxa de conversão melhorada em 15%."
+                    },
+                    {
+                        nome: "Eficiência Logística",
+                        descricao: "Tracking IoT de frota para otimização de rotas e distribuição.",
+                        tangiveis: "Redução de 20% nos custos de transporte; Poupança de €2.2M/ano.",
+                        intangiveis: "Vantagem competitiva com estratégia omnicanal; Diferenciação da concorrência.",
+                        custos: "Economia estimada em €800.000/ano em combustível e manutenção.",
+                        observacoes: "KPIs: 20% redução em custos logísticos; Tempo de entrega melhorado."
+                    }
+                ]
+            },
+            {
+                titulo: "Universidade — Governança Académica e Digitalização",
+                casos: [
+                    {
+                        nome: "Redução do Abandono Escolar",
+                        descricao: "Dados preditivos de risco de insucesso para intervenção precoce.",
+                        tangiveis: "Queda de 15% no abandono em 2 anos; Retenção de €2M em propinas.",
+                        intangiveis: "Reputação académica melhorada em rankings internacionais (QS/Times); Atrai investigadores.",
+                        custos: "Ganhos estimados em €500.000/ano em custos de recrutamento.",
+                        observacoes: "KPIs: 15% redução no abandono; Taxa de sucesso académico melhorada."
+                    },
+                    {
+                        nome: "Eficiência Administrativa",
+                        descricao: "Processos digitais de matrícula e gestão académica.",
+                        tangiveis: "Tempo de matrícula reduzido em 70%; Poupança de €500.000/ano.",
+                        intangiveis: "Experiência do estudante melhorada com portais integrados; Aumento da satisfação estudantil.",
+                        custos: "Economia estimada em €200.000/ano em processos manuais.",
+                        observacoes: "KPIs: 70% redução no tempo de matrícula; Satisfação estudantil acima de 85%."
+                    },
+                    {
+                        nome: "Otimização da Captação Internacional",
+                        descricao: "Marketing baseado em dados para atrair estudantes estrangeiros.",
+                        tangiveis: "Aumento de 12% em estudantes estrangeiros; Receita adicional de €1.8M/ano.",
+                        intangiveis: "Cultura de inovação com uso de IA em investigação; Prestígio institucional.",
+                        custos: "Ganhos estimados em €300.000/ano em campanhas mais direcionadas.",
+                        observacoes: "KPIs: 12% aumento em estudantes internacionais; ROI de marketing melhorado."
+                    }
+                ]
+            }
+        ];
+
+        function renderLista() {
+            const lista = document.getElementById('listaUC');
+            if (casosUso.length === 0) {
+                lista.innerHTML = '<p class="text-gray-500 text-sm">Nenhum caso de uso adicionado ainda. Use o formulário acima para começar.</p>';
+                return;
+            }
+            
+            lista.innerHTML = '';
+            casosUso.forEach((uc, index) => {
+                const li = document.createElement('div');
+                li.className = 'flex justify-between items-center p-3 bg-gray-100 rounded border-l-4 border-blue-500';
+                li.innerHTML = `
+                    <div>
+                        <span class="font-medium">${uc.nome}</span>
+                        <p class="text-sm text-gray-600 mt-1">${uc.descricao.substring(0, 80)}${uc.descricao.length > 80 ? '...' : ''}</p>
+                    </div>
+                    <div class="flex space-x-2">
+                        <button onclick="editarUC(${index})" class="text-blue-600 hover:text-blue-800 text-sm">Editar</button>
+                        <button onclick="removerUC(${index})" class="text-red-600 hover:text-red-800 text-sm">Remover</button>
+                    </div>
+                `;
+                lista.appendChild(li);
+            });
+        }
+
+        function renderTabelas() {
+            const tangiveis = document.getElementById('tabelaTangiveis');
+            const intangiveis = document.getElementById('tabelaIntangiveis');
+
+            let htmlTangiveis = '<h3 class="font-semibold mb-2">Benefícios Tangíveis — valores conhecidos e documentados</h3>';
+            htmlTangiveis += '<table class="min-w-full table-auto border-collapse border border-gray-300">';
+            htmlTangiveis += '<thead><tr class="bg-gray-100">';
+            htmlTangiveis += '<th class="border border-gray-300 px-4 py-2 text-left">Objetivo</th>';
+            htmlTangiveis += '<th class="border border-gray-300 px-4 py-2 text-left">Como se mede</th>';
+            htmlTangiveis += '<th class="border border-gray-300 px-4 py-2 text-left">Evidência/Exemplo</th>';
+            htmlTangiveis += '<th class="border border-gray-300 px-4 py-2 text-left">Valor Estimado</th>';
+            htmlTangiveis += '</tr></thead><tbody>';
+
+            let htmlIntangiveis = '<h3 class="font-semibold mb-2">Benefícios Intangíveis — impacto financeiro/reputacional mas difícil de quantificar</h3>';
+            htmlIntangiveis += '<table class="min-w-full table-auto border-collapse border border-gray-300">';
+            htmlIntangiveis += '<thead><tr class="bg-gray-100">';
+            htmlIntangiveis += '<th class="border border-gray-300 px-4 py-2 text-left">Impacto</th>';
+            htmlIntangiveis += '<th class="border border-gray-300 px-4 py-2 text-left">Evidência/Exemplo</th>';
+            htmlIntangiveis += '<th class="border border-gray-300 px-4 py-2 text-left">Observação</th>';
+            htmlIntangiveis += '</tr></thead><tbody>';
+
+            casosUso.forEach(uc => {
+                // Para benefícios tangíveis, vamos extrair objetivo, medida, evidência e valor
+                const tangList = uc.tangiveis.split(';').map(b => b.trim()).filter(b => b);
+                tangList.forEach(benef => {
+                    // Tentar extrair valor monetário ou percentual
+                    const valorMatch = benef.match(/(€[\d,]+\/?\w*|[\d,]+%|\+[\d,]+%)/);
+                    const valor = valorMatch ? valorMatch[0] : 'A quantificar';
+                    const beneficioLimpo = benef.replace(/(€[\d,]+\/?\w*|[\d,]+%|\+[\d,]+%)/, '').trim();
+                    
+                    htmlTangiveis += '<tr>';
+                    htmlTangiveis += `<td class="border border-gray-300 px-4 py-2">${uc.nome}</td>`;
+                    htmlTangiveis += `<td class="border border-gray-300 px-4 py-2">${beneficioLimpo}</td>`;
+                    htmlTangiveis += `<td class="border border-gray-300 px-4 py-2">${uc.descricao}</td>`;
+                    htmlTangiveis += `<td class="border border-gray-300 px-4 py-2 font-semibold">${valor}</td>`;
+                    htmlTangiveis += '</tr>';
+                });
+
+                // Para benefícios intangíveis
+                const intangList = uc.intangiveis.split(';').map(b => b.trim()).filter(b => b);
+                intangList.forEach(benef => {
+                    htmlIntangiveis += '<tr>';
+                    htmlIntangiveis += `<td class="border border-gray-300 px-4 py-2">${benef}</td>`;
+                    htmlIntangiveis += `<td class="border border-gray-300 px-4 py-2">${uc.descricao}</td>`;
+                    htmlIntangiveis += `<td class="border border-gray-300 px-4 py-2">${uc.observacoes || 'Impacto significativo'}</td>`;
+                    htmlIntangiveis += '</tr>';
+                });
+            });
+
+            htmlTangiveis += '</tbody></table>';
+            htmlIntangiveis += '</tbody></table>';
+
+            tangiveis.innerHTML = casosUso.length > 0 ? htmlTangiveis : '<p class="text-gray-500">Adicione casos de uso para ver os benefícios tangíveis.</p>';
+            intangiveis.innerHTML = casosUso.length > 0 ? htmlIntangiveis : '<p class="text-gray-500">Adicione casos de uso para ver os benefícios intangíveis.</p>';
+
+            atualizarFeedback();
+        }
+
+        function adicionarUC(uc) {
+            casosUso.push(uc);
+            renderLista();
+            renderTabelas();
+        }
+
+        function limparTudo() {
+            if (confirm('Tem a certeza que deseja remover todos os casos de uso?')) {
+                casosUso = [];
+                renderLista();
+                renderTabelas();
+            }
+        }
+
+        function editarUC(index) {
+            const uc = casosUso[index];
+            document.getElementById('ucNome').value = uc.nome;
+            document.getElementById('ucDescricao').value = uc.descricao;
+            document.getElementById('ucTangiveis').value = uc.tangiveis;
+            document.getElementById('ucIntangiveis').value = uc.intangiveis;
+            document.getElementById('ucCustos').value = uc.custos;
+            document.getElementById('ucObservacoes').value = uc.observacoes;
+            
+            // Remover o caso de uso da lista para que seja re-adicionado com as alterações
+            removerUC(index);
+            
+            // Scroll para o formulário
+            document.getElementById('ucForm').scrollIntoView({behavior: 'smooth'});
+        }
+
+        function removerUC(index) {
+            casosUso.splice(index, 1);
+            renderLista();
+            renderTabelas();
+        }
+
+        function atualizarFeedback() {
+            const feedback = document.getElementById('feedback');
+            let tangCount = 0, intangCount = 0, kpiCount = 0;
+
+            casosUso.forEach(uc => {
+                tangCount += uc.tangiveis.split(';').filter(b => b.trim()).length;
+                intangCount += uc.intangiveis.split(';').filter(b => b.trim()).length;
+                if (uc.observacoes.toLowerCase().includes('kpi')) kpiCount++;
+            });
+
+            if (casosUso.length === 0) {
+                feedback.innerHTML = '<p class="text-gray-500">Adicione casos de uso para ver o feedback.</p>';
+                return;
+            }
+
+            let score = 0;
+            let maxScore = 3;
+            let feedbackText = '<div class="space-y-2">';
+            
+            // Verificar benefícios tangíveis
+            if (tangCount >= 3) {
+                feedbackText += '<p class="text-green-600">✓ Benefícios tangíveis: Excelente! (' + tangCount + ' benefícios)</p>';
+                score++;
+            } else {
+                feedbackText += '<p class="text-yellow-600">⚠ Benefícios tangíveis: Adicione mais benefícios quantificáveis (' + tangCount + '/3 mínimo)</p>';
+            }
+            
+            // Verificar benefícios intangíveis
+            if (intangCount >= 2) {
+                feedbackText += '<p class="text-green-600">✓ Benefícios intangíveis: Muito bem! (' + intangCount + ' benefícios)</p>';
+                score++;
+            } else {
+                feedbackText += '<p class="text-yellow-600">⚠ Benefícios intangíveis: Adicione mais benefícios qualitativos (' + intangCount + '/2 mínimo)</p>';
+            }
+            
+            // Verificar KPIs
+            if (kpiCount >= 1) {
+                feedbackText += '<p class="text-green-600">✓ KPIs: Perfeito! (' + kpiCount + ' KPI(s) identificado(s))</p>';
+                score++;
+            } else {
+                feedbackText += '<p class="text-yellow-600">⚠ KPIs: Adicione pelo menos 1 KPI nas observações</p>';
+            }
+
+            feedbackText += '<div class="mt-3 p-3 rounded border">';
+            if (score === maxScore) {
+                feedbackText += '<p class="text-green-700 font-semibold">🎯 Business Case consistente! Parabéns!</p>';
+                feedbackText += '<p class="text-green-600 text-sm">O seu Business Case está completo e bem estruturado.</p>';
+            } else {
+                feedbackText += '<p class="text-yellow-700 font-semibold">📝 Business Case em desenvolvimento (' + score + '/' + maxScore + ')</p>';
+                feedbackText += '<p class="text-yellow-600 text-sm">Continue a adicionar informações para completar o Business Case.</p>';
+            }
+            feedbackText += '</div></div>';
+
+            feedback.innerHTML = feedbackText;
+        }
+
+        function gerarExemplo() {
+            casosUso = exemplos[exemploIndex].casos.map(uc => ({...uc}));
+            exemploIndex = (exemploIndex + 1) % exemplos.length;
+            renderLista();
+            renderTabelas();
+        }
+
+        function gerarExemplosDetalhados() {
+            casosUso = exemplosDetalhados[exemploDetalhadoIndex].casos.map(uc => ({...uc}));
+            exemploDetalhadoIndex = (exemploDetalhadoIndex + 1) % exemplosDetalhados.length;
+            renderLista();
+            renderTabelas();
+        }
+
+        function exportarMarkdown() {
+            let md = '# Business Case\n\n';
+            md += '## Benefícios Tangíveis — valores conhecidos e documentados\n\n';
+            md += '| Caso de Uso | Benefício | Valor |\n|-------------|----------|-------|\n';
+
+            casosUso.forEach(uc => {
+                const tangList = uc.tangiveis.split(';').map(b => b.trim()).filter(b => b);
+                tangList.forEach(benef => {
+                    const parts = benef.split('em');
+                    const beneficio = parts[0].trim();
+                    const valor = parts[1] ? parts[1].trim() : '';
+                    md += `| ${uc.nome} | ${beneficio} | ${valor} |\n`;
+                });
+            });
+
+            md += '\n## Benefícios Intangíveis — impacto financeiro/reputacional mas difícil de quantificar\n\n';
+            md += '| Caso de Uso | Benefício | Impacto |\n|-------------|----------|---------|\n';
+
+            casosUso.forEach(uc => {
+                const intangList = uc.intangiveis.split(';').map(b => b.trim()).filter(b => b);
+                intangList.forEach(benef => {
+                    md += `| ${uc.nome} | ${benef} | Impacto significativo |\n`;
+                });
+            });
+
+            const blob = new Blob([md], { type: 'text/markdown;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'business-case.md';
+            link.click();
+        }
+
+        function exportarCSV() {
+            const BOM = '\uFEFF';
+            let csv = BOM + 'Tipo,Caso de Uso,Benefício,Valor/Impacto\n';
+
+            casosUso.forEach(uc => {
+                const tangList = uc.tangiveis.split(';').map(b => b.trim()).filter(b => b);
+                tangList.forEach(benef => {
+                    const parts = benef.split('em');
+                    const beneficio = parts[0].trim();
+                    const valor = parts[1] ? parts[1].trim() : '';
+                    csv += `Tangível,${uc.nome},"${beneficio}","${valor}"\n`;
+                });
+
+                const intangList = uc.intangiveis.split(';').map(b => b.trim()).filter(b => b);
+                intangList.forEach(benef => {
+                    csv += `Intangível,${uc.nome},"${benef}","Impacto significativo"\n`;
+                });
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'business-case.csv';
+            link.click();
+        }
+
+        document.getElementById('ucForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const uc = {
+                nome: document.getElementById('ucNome').value,
+                descricao: document.getElementById('ucDescricao').value,
+                tangiveis: document.getElementById('ucTangiveis').value,
+                intangiveis: document.getElementById('ucIntangiveis').value,
+                custos: document.getElementById('ucCustos').value,
+                observacoes: document.getElementById('ucObservacoes').value
+            };
+            adicionarUC(uc);
+            this.reset();
+        });
+
+        document.getElementById('btnExemplo').addEventListener('click', gerarExemplo);
+        document.getElementById('btnExemplosDetalhados').addEventListener('click', gerarExemplosDetalhados);
+        document.getElementById('btnLimpar').addEventListener('click', limparTudo);
+        document.getElementById('btnExportMD').addEventListener('click', exportarMarkdown);
+        document.getElementById('btnExportCSV').addEventListener('click', exportarCSV);
+
+        // Inicialização
+        renderLista();
+        renderTabelas();
+    </script>
+</body>
+</html></content>
+<parameter name="filePath">/workspaces/GSD-ACADEMY/docs/ETAPA 1 - Business Case/atividade-business-case.html

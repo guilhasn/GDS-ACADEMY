@@ -17,8 +17,6 @@ A **ETAPA 3 — Estratégia** é onde ocorrem as atividades de visão a longo pr
 2. **Valor Organizacional** - Declaração de valor financeiro e baseline para medição
 3. **Requisitos Estratégicos** - Definição de requisitos estratégicos para DG
 
-![Área de trabalho Estratégia](../assets/images/estrategia-work-area.png)
-
 ## Considerações Fundamentais
 
 ### 🔗 Alinhamento Estratégico

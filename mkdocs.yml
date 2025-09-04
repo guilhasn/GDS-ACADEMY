@@ -36,19 +36,16 @@ plugins:
 nav:
   - Início: index.md
   - ETAPA 1 — Business Case:
-      - Introdução: etapa-01-business-case.md
+      - Introdução: ETAPA 1 - Business Case/etapa-01-business-case.md
       - Exemplo 1: ETAPA 1 - Business Case/exemplo1.md
       - Exemplo 2: ETAPA 1 - Business Case/exemplo2.md
       - Exemplo 3: ETAPA 1 - Business Case/exemplo3.md
       - Exemplo 4: ETAPA 1 - Business Case/exemplo4.md
       - Atividade Interativa: ETAPA 1 - Business Case/atividade-business-case.html
   - ETAPA 2 — Engagement:
-      - Introdução: etapa-02-engagement.md
-      - Introdução 222: ETAPA 2 - Engagement/ex1-mapeamento-stakeholders.md
+      - Introdução: ETAPA 2 - Engagement/etapa-02-engagement.md
       - Simulador de Cenários: ETAPA 2 - Engagement/simulador-cenarios-engagement.html
   - ETAPA 3 — Estratégia:
-      - Introdução: etapa-03-estrategia.md
-  - Quizzes: quizzes.md
+      - Introdução: ETAPA 3 - Estratégia/etapa-03-estrategia.md
   - Recursos: recursos.md
-  - Privacidade: privacidade.md
 
